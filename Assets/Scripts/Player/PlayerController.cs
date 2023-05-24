@@ -8,9 +8,11 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed;
     private Vector2 moveInput;
     public Rigidbody2D playerRB;
+    public Animator anim;
     // For custom interactions in which the player's input is ignored
     // EPC = Enable Player Control
     public bool EPC = true;
+    public bool notShielding = true;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -43,6 +45,16 @@ public class PlayerController : MonoBehaviour
             {
                 transform.localScale = Vector2.one;
             }
+        }
+        // Animating the player
+        if (playerRB.velocity != Vector2.zero)
+        {
+            anim.SetBool("isMoving", true);
+
+        }
+        else
+        {
+            anim.SetBool("isMoving", false);
         }
     }
 }
