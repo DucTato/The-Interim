@@ -5,10 +5,12 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance;
-    public float moveSpeed;
+    [SerializeField] Transform weaponHand;
+    [SerializeField] private Rigidbody2D playerRB;
+    [SerializeField] private Animator anim;
     private Vector2 moveInput;
-    public Rigidbody2D playerRB;
-    public Animator anim;
+    public float moveSpeed;
+
     // For custom interactions in which the player's input is ignored
     // EPC = Enable Player Control
     public bool EPC = true;
@@ -40,11 +42,17 @@ public class PlayerController : MonoBehaviour
             if (mousePos.x < screenPoint.x)
             {
                 transform.localScale = new Vector2(-1f, 1f); // flip about the x axis
+                weaponHand.localScale = new Vector2(-1f, -1f);
             }
             else
             {
                 transform.localScale = Vector2.one;
+                weaponHand.localScale = Vector2.one;
             }
+            // Rotate the weapon hand so that it follows the mouse
+            Vector2 offset = new Vector2(mousePos.x - screenPoint.x, mousePos.y - screenPoint.y);
+            float angle = Mathf.Atan2(offset.y, offset.x) * 57.295f;
+            weaponHand.rotation = Quaternion.Euler(0,0,angle);  
         }
         // Animating the player
         if (playerRB.velocity != Vector2.zero)

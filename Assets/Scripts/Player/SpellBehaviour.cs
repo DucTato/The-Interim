@@ -6,7 +6,7 @@ using UnityEngine;
 public class SpellBehaviour : MonoBehaviour
 {
     private Transform target;
-    private Vector2 direction;
+    private Vector3 direction;
     [SerializeField]
     private float speed = 6;
     [SerializeField]
@@ -15,18 +15,22 @@ public class SpellBehaviour : MonoBehaviour
     private Rigidbody2D spellRGBD;
     [SerializeField]
     private GameObject xplosionFX;
+    public int dmgToGive;
+    private static bool hasTarget = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        direction = transform.right;
         target = findClosestTarget().transform;
+        Destroy(gameObject, 6f); // Auto destroy after a while
     }
 
     // Update is called once per frame
     void Update()
     {
         // If no target is present at the time of casting, behave like a non-homing spell
-        if (target != null)
+        if (hasTarget && target != null)
         {
             direction = target.position - transform.position;
             direction.Normalize();
@@ -34,9 +38,9 @@ public class SpellBehaviour : MonoBehaviour
             spellRGBD.angularVelocity = -angleChangingSpeed * rotateAmount;
             spellRGBD.velocity = transform.right * speed;
         }
-        else
+        else if (!hasTarget) 
         {
-            spellRGBD.velocity = transform.right * speed;
+            transform.position += direction * speed * Time.deltaTime;
         }
     }
     private GameObject findClosestTarget()
@@ -45,6 +49,7 @@ public class SpellBehaviour : MonoBehaviour
         GameObject[] GO2s = GameObject.FindGameObjectsWithTag("Enemy mBullet");
         GameObject[] GOs = GO1s.Concat(GO2s).ToArray();
         GameObject closest = null;
+        hasTarget = false;
         float distance = Mathf.Infinity;
         Vector3 position = transform.position;
         foreach (GameObject go in GOs) 
@@ -55,8 +60,21 @@ public class SpellBehaviour : MonoBehaviour
             {
                 closest = go;
                 distance = curDistance;
+                hasTarget = true;
             }
         }
         return closest;
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Destroy(gameObject);
+        if (other.tag == "Enemy")
+        {
+            other.GetComponent<EnemyController>().damageEnemy(dmgToGive);
+        }
+    }
+    private void OnBecameInvisible()
+    {
+        // Impact FX
     }
 }

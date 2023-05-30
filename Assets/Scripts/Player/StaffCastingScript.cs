@@ -17,17 +17,18 @@ public class StaffCastingScript : MonoBehaviour
     private float fireRate;
     [SerializeField]
     private Animator anim;
-    private BoxCollider2D collision;
+    [SerializeField] private BoxCollider2D collision;
+    public float bashDamage;
     // Start is called before the first frame update
     void Start()
     {
-        collision= GetComponent<BoxCollider2D>();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(PlayerController.instance.EPC)
+        if(PlayerController.instance.EPC && PlayerController.instance.notShielding)
         {
             if (shotCounter > 0)
             {
@@ -80,6 +81,13 @@ public class StaffCastingScript : MonoBehaviour
             Instantiate(spellsToCast[0], shootPoints[n].position, shootPoints[n].rotation);
         // Muzzle FX   
             yield return new WaitForSeconds(60f / fireRate);
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Enemy")
+        {
+            other.GetComponent<EnemyController>().damageEnemy(bashDamage);
         }
     }
 }

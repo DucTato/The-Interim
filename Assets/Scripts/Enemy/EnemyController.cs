@@ -5,10 +5,12 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     [SerializeField] protected float detectRange;
-    private Vector2 moveDirection;
+    [SerializeField] private float Health;
     [SerializeField] private Rigidbody2D enemyRB;
     [SerializeField] private float moveSpeed;
     [SerializeField] private Animator anim;
+    private Vector2 moveDirection;
+
 
     // Start is called before the first frame update
     void Start()
@@ -49,6 +51,16 @@ public class EnemyController : MonoBehaviour
         else
         {
             anim.SetBool("isMoving", false);
+        }
+    }
+    public void damageEnemy(float damage)
+    {
+        Health -= damage;
+        // Hit FX
+        if (Health <= 0)
+        {
+            Destroy(gameObject);
+            // Spawning an item upon death
         }
     }
 }

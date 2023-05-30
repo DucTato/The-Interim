@@ -6,6 +6,7 @@ public class ShieldScript : MonoBehaviour
 {
     public Animator anim;
     private CircleCollider2D shieldCollision;
+    [SerializeField] private GameObject shieldImpactFX;
     // Start is called before the first frame update
     void Start()
     {
