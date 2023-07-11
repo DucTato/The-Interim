@@ -6,9 +6,9 @@ public class EnemyController : MonoBehaviour
 {
     [SerializeField] protected float detectRange;
     [SerializeField] private float Health;
-    [SerializeField] private Rigidbody2D enemyRB;
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private Animator anim;
+
+    
+   
     private Vector2 moveDirection;
 
 
@@ -21,7 +21,7 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Vector2.Distance(transform.position, PlayerController.instance.transform.position) < detectRange)
+        if (Vector2.Distance(transform.position, PlayerController.instance.transform.position) < detectRange)
         {
             //Facing the player
             if (transform.position.x > PlayerController.instance.transform.position.x)
@@ -32,26 +32,18 @@ public class EnemyController : MonoBehaviour
             {
                 transform.localScale = Vector2.one;
             }
-            //Walking towards the player
-            moveDirection = PlayerController.instance.transform.position - transform.position;
         }
-        else
-        {
-            moveDirection = Vector2.zero;
-        }
-        moveDirection.Normalize();
-        enemyRB.velocity = moveDirection * moveSpeed;
+        //    //Walking towards the player
+        //    moveDirection = PlayerController.instance.transform.position - transform.position;
+        //}
+        //else
+        //{
+        //    moveDirection = Vector2.zero;
+        //}
+        //moveDirection.Normalize();
+        //enemyRB.velocity = moveDirection * moveSpeed;
 
-        //Animating the enemy
-        if (enemyRB.velocity != Vector2.zero)
-        {
-            anim.SetBool("isMoving", true);
-
-        }
-        else
-        {
-            anim.SetBool("isMoving", false);
-        }
+        
     }
     public void damageEnemy(float damage)
     {

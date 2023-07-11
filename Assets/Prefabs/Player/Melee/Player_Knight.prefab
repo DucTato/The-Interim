@@ -204,9 +204,12 @@ MonoBehaviour:
   weaponHand: {fileID: 2671478531382872442}
   playerRB: {fileID: 2671478530861998274}
   anim: {fileID: 2671478530861998303}
-  moveSpeed: 4
+  moveSpeed: 3.9
+  runSpeed: 5.2
+  deadBody: {fileID: 5214601676800552421, guid: 0f2a2822e22d4924497a694f02471640, type: 3}
   EPC: 1
   notShielding: 1
+  isRunning: 0
 --- !u!50 &2671478530861998274
 Rigidbody2D:
   serializedVersion: 4
@@ -326,7 +329,7 @@ MonoBehaviour:
   - {x: 0.25905466, y: -0.8435714, z: 0}
   m_ShapePathHash: 1866995429
   m_Mesh: {fileID: 0}
-  m_InstanceId: 31872
+  m_InstanceId: -1346
 --- !u!61 &2671478530861998301
 BoxCollider2D:
   m_ObjectHideFlags: 0

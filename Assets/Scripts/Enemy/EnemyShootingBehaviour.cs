@@ -51,6 +51,7 @@ public class EnemyShootingBehaviour : MonoBehaviour
         }
         else
         {
+            // Return to normal after aiming 
             rotationPoint.rotation = Quaternion.Slerp(rotationPoint.rotation, Quaternion.Euler(Vector2.zero), Time.deltaTime * rotationSpeed);
         }
             

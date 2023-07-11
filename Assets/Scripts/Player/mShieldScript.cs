@@ -16,16 +16,21 @@ public class mShieldScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Hold Space Bar to use the Shield
-        if (Input.GetKeyDown("space")) 
+        if (PlayerController.instance.EPC)
         {
-            anim.SetBool("useShield", true);
-            PlayerController.instance.notShielding = false;
-        }
-        if (Input.GetKeyUp("space"))
-        {
-            PlayerController.instance.notShielding = true;
-            anim.SetBool("useShield", false);
+
+
+            // Hold Space Bar to use the Shield
+            if (Input.GetKey("space"))
+            {
+                anim.SetBool("useShield", true);
+                PlayerController.instance.notShielding = false;
+            }
+           else
+            {
+                PlayerController.instance.notShielding = true;
+                anim.SetBool("useShield", false);
+            }
         }
     }
     private void shieldUp()

@@ -75,6 +75,6 @@ public class SpellBehaviour : MonoBehaviour
     }
     private void OnBecameInvisible()
     {
-        // Impact FX
+        Instantiate (xplosionFX, transform.position, transform.rotation);
     }
 }

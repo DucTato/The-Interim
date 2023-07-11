@@ -116,7 +116,11 @@ TextureImporter:
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -6, y: -4}
+        - {x: -6, y: -13}
+        - {x: 6, y: -13}
+        - {x: 6, y: -4}
       tessellationDetail: 0
       bones: []
       spriteID: 777c4dcbfbc219043a1deabedcd6cb95
@@ -137,7 +141,11 @@ TextureImporter:
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -6, y: -4}
+        - {x: -6, y: -13}
+        - {x: 6, y: -13}
+        - {x: 6, y: -4}
       tessellationDetail: 0
       bones: []
       spriteID: 36b0cbcf47fdf1e419b25e637124526a
@@ -158,7 +166,11 @@ TextureImporter:
       pivot: {x: 0.5, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -6, y: -2}
+        - {x: -6, y: -11}
+        - {x: 6, y: -11}
+        - {x: 6, y: -2}
       tessellationDetail: 0
       bones: []
       spriteID: 759c984d32b421249b6fff22d61ca3aa
@@ -1165,7 +1177,11 @@ TextureImporter:
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -6, y: -2.5}
+        - {x: -6, y: -11.5}
+        - {x: 6, y: -11.5}
+        - {x: 6, y: -2.5}
       tessellationDetail: 0
       bones: []
       spriteID: 6de6b4217a604f04fa490f77ea78e0f5
@@ -1188,7 +1204,7 @@ TextureImporter:
       forest_ [resources]_3: -442142288
       forest_ [resources]_26: -2123425190
       forest_ [resources]_35: 460963663
-      forest_ [resources]_48: 1056749545
+      forest_ [resources]_15: -2084282357
       forest_ [resources]_17: -803687465
       forest_ [resources]_1: 739580182
       forest_ [resources]_45: 1058177358
@@ -1234,7 +1250,7 @@ TextureImporter:
       forest_ [resources]_37: 2096002047
       forest_ [resources]_42: 238835416
       forest_ [resources]_31: 2001290510
-      forest_ [resources]_15: -2084282357
+      forest_ [resources]_48: 1056749545
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

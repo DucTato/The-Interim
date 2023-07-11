@@ -7,6 +7,8 @@ public class eSpellBehaviour : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float angleChangingSpeed;
     [SerializeField] private Rigidbody2D RGBD;
+    [SerializeField] private GameObject xplosionFX;
+    [SerializeField] private float Damage;
     private Vector3 moveDirection;
     private int isHoming;
 
@@ -42,13 +44,13 @@ public class eSpellBehaviour : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         Destroy(gameObject);
-        //if (other.tag == "Player")
-        //{
-        //    other.GetComponent<EnemyController>().damageEnemy(dmgToGive);
-        //}
+        if (other.tag == "Player")
+        {
+            PlayerStatusSystem.instance.magicDamage(Damage);
+        }
     }
     private void OnBecameInvisible()
     {
-        // Impact FX
+        Instantiate(xplosionFX, transform.position, transform.rotation);
     }
 }

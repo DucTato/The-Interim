@@ -103,6 +103,8 @@ MonoBehaviour:
   speed: 3.8
   angleChangingSpeed: 250
   RGBD: {fileID: 5301327273939580967}
+  xplosionFX: {fileID: 5623778469735655675, guid: 03ad3380b143c4a48b42b4252f29ff24, type: 3}
+  Damage: 3
 --- !u!50 &5301327273939580967
 Rigidbody2D:
   serializedVersion: 4

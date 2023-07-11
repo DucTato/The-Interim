@@ -21,9 +21,9 @@ TagManager:
   - Enemy
   - Enemy m_Bullets
   - Enemy Bullets
-  - 
-  - 
-  - 
+  - Ground
+  - Walls
+  - Obstacles
   - 
   - 
   - 
