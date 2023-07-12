@@ -92,7 +92,9 @@ MonoBehaviour:
   fireRate: 130
   anim: {fileID: 6499029114159798724}
   collision: {fileID: 6499029114761925104}
+  knockBackRecovery: 3
   bashDamage: 0.5
+  bashForce: 3
 --- !u!95 &6499029114159798724
 Animator:
   serializedVersion: 4

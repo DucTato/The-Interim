@@ -22,7 +22,10 @@ public class SpellBehaviour : MonoBehaviour
     void Start()
     {
         direction = transform.right;
-        target = findClosestTarget().transform;
+        if (findClosestTarget() != null)
+        {
+            target = findClosestTarget().transform;
+        }
         Destroy(gameObject, 6f); // Auto destroy after a while
     }
 
@@ -68,9 +71,10 @@ public class SpellBehaviour : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         Destroy(gameObject);
-        if (other.tag == "Enemy")
+        EnemyController ec = other.GetComponent<EnemyController>();
+        if (ec != null)
         {
-            other.GetComponent<EnemyController>().damageEnemy(dmgToGive);
+            ec.damageEnemy(dmgToGive);
         }
     }
     private void OnBecameInvisible()

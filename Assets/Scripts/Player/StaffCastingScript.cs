@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class StaffCastingScript : MonoBehaviour
 {
@@ -18,17 +19,23 @@ public class StaffCastingScript : MonoBehaviour
     [SerializeField]
     private Animator anim;
     [SerializeField] private BoxCollider2D collision;
+    [SerializeField]
+    private float knockBackRecovery;
     public float bashDamage;
+    public float bashForce;
+    private int currentShot;
+    private PlayerController playerRef;
     // Start is called before the first frame update
     void Start()
     {
-        
+        currentShot = 1;
+        playerRef = PlayerController.instance;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(PlayerController.instance.EPC && PlayerController.instance.notShielding)
+        if(playerRef.EPC && playerRef.notShielding)
         {
             if (shotCounter > 0)
             {
@@ -50,9 +57,10 @@ public class StaffCastingScript : MonoBehaviour
             {
                 anim.SetBool("isCasting", true);
             }
-            if (Input.GetMouseButtonUp(0))
+            if (currentShot == burstSize && !Input.GetMouseButton(0))
             {
                 anim.SetBool("isCasting", false);
+                currentShot = 1;
             }
         }
 
@@ -63,6 +71,7 @@ public class StaffCastingScript : MonoBehaviour
         {
             StartCoroutine(brstFire(burstSize));
             shotCounter = delay;
+            currentShot = 1;
         }
     }
     private void hitFrameON()
@@ -79,15 +88,39 @@ public class StaffCastingScript : MonoBehaviour
         {
             int n = Random.Range(0, shootPoints.Length);
             Instantiate(spellsToCast[0], shootPoints[n].position, shootPoints[n].rotation);
+            currentShot++;
         // Muzzle FX   
             yield return new WaitForSeconds(60f / fireRate);
         }
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Enemy")
+        EnemyController ec = other.GetComponent<EnemyController>();
+        if (ec != null)
         {
-            other.GetComponent<EnemyController>().damageEnemy(bashDamage);
+            ec.isStunned = true;
+            BashKnockBack(ec.gameObject);
+            ec.damageEnemy(bashDamage);
+
         }
+    }
+    private void BashKnockBack(GameObject target)
+    {
+        StartCoroutine(KnockBackThenRecover(target, knockBackRecovery));
+        Rigidbody2D targetRB = target.GetComponent<Rigidbody2D>();
+        targetRB.velocity = Vector2.zero;
+        // Find the vector that represents the current position of the target and the player
+        Vector2 knockDirection = target.transform.position - playerRef.transform.position;
+        // Apply the force
+        targetRB.AddForce(knockDirection * bashForce, ForceMode2D.Impulse);
+        
+    }
+    private IEnumerator KnockBackThenRecover(GameObject target, float recoverTime)
+    {
+        target.GetComponent<EnemyPathFindingBehaviour>().enabled = false;
+        target.GetComponent<Animator>().SetBool("isMoving", false);
+        yield return new WaitForSeconds(recoverTime);
+        target.GetComponent<EnemyPathFindingBehaviour>().enabled = true;
+        target.GetComponent<EnemyController>().isStunned = false;
     }
 }

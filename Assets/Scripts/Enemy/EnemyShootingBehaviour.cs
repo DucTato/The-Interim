@@ -6,6 +6,7 @@ public class EnemyShootingBehaviour : MonoBehaviour
 {
     private Vector2 aimDirection;
     private Quaternion rotationAngle;
+    private PlayerController playerRef;
     [SerializeField]
     private Transform rotationPoint;
     [SerializeField]
@@ -25,36 +26,38 @@ public class EnemyShootingBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        playerRef = PlayerController.instance;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Vector2.Distance(transform.position, PlayerController.instance.transform.position) < shootRange)
+        if(playerRef.gameObject.activeInHierarchy)
         {
-            // Enemies that can shoot at the player will be able to "aim" at the player
-            aimDirection = (PlayerController.instance.transform.position - rotationPoint.position).normalized;
-            float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * 57.295f - 90f;
-            rotationAngle = Quaternion.AngleAxis(angle, Vector3.forward);
-            rotationPoint.rotation = Quaternion.Slerp(rotationPoint.rotation, rotationAngle, Time.deltaTime * rotationSpeed);
-            // Enemies will shoot when the Player is within shoot range
-            if (shotCounter > 0)
+            if (Vector2.Distance(transform.position, PlayerController.instance.transform.position) < shootRange)
             {
-                shotCounter -= Time.deltaTime;
+                // Enemies that can shoot at the player will be able to "aim" at the player
+                aimDirection = (PlayerController.instance.transform.position - rotationPoint.position).normalized;
+                float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * 57.295f - 90f;
+                rotationAngle = Quaternion.AngleAxis(angle, Vector3.forward);
+                rotationPoint.rotation = Quaternion.Slerp(rotationPoint.rotation, rotationAngle, Time.deltaTime * rotationSpeed);
+                // Enemies will shoot when the Player is within shoot range
+                if (shotCounter > 0)
+                {
+                    shotCounter -= Time.deltaTime;
+                }
+                else
+                {
+                    StartCoroutine(brstSpell(BurstSize));
+                    shotCounter = Delay;
+                }
             }
             else
             {
-                StartCoroutine(brstSpell(BurstSize));
-                shotCounter = Delay;
+                // Return to normal after aiming 
+                rotationPoint.rotation = Quaternion.Slerp(rotationPoint.rotation, Quaternion.Euler(Vector2.zero), Time.deltaTime * rotationSpeed);
             }
-        }
-        else
-        {
-            // Return to normal after aiming 
-            rotationPoint.rotation = Quaternion.Slerp(rotationPoint.rotation, Quaternion.Euler(Vector2.zero), Time.deltaTime * rotationSpeed);
-        }
-            
+        }     
     }
     private IEnumerator brstSpell(int BurstSize)
     {
