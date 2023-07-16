@@ -180,10 +180,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 8869976030457455982}
-  meleeType: 0
+  type: 0
   collision: {fileID: 31388016089685821}
   attackDelay: 0.6
-  Damage: 4
+  staminaCost: 15
+  Damage: 40
 --- !u!50 &7698437227969008714
 Rigidbody2D:
   serializedVersion: 4

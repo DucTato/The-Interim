@@ -70,6 +70,7 @@ public class SpellBehaviour : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
+        
         Destroy(gameObject);
         EnemyController ec = other.GetComponent<EnemyController>();
         if (ec != null)
@@ -77,8 +78,8 @@ public class SpellBehaviour : MonoBehaviour
             ec.damageEnemy(dmgToGive);
         }
     }
-    private void OnBecameInvisible()
+    private void OnDestroy()
     {
-        Instantiate (xplosionFX, transform.position, transform.rotation);
+        Instantiate(xplosionFX, transform.position, transform.rotation);
     }
 }

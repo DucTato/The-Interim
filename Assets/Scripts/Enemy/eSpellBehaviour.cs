@@ -10,15 +10,17 @@ public class eSpellBehaviour : MonoBehaviour
     [SerializeField] private GameObject xplosionFX;
     [SerializeField] private float Damage;
     private Vector3 moveDirection;
+    private PlayerController playerRef;
     private int isHoming;
 
     // Start is called before the first frame update
     void Start()
     {
+        playerRef = PlayerController.instance;
         isHoming = Random.Range(0, 3); // Randomly decide if this spell should be Homing or not. Odd: 1 out of 3
         if (isHoming != 1) 
         {
-            moveDirection = PlayerController.instance.transform.position - transform.position;
+            moveDirection = playerRef.transform.position - transform.position;
             moveDirection.Normalize();
         }
         else
@@ -33,7 +35,7 @@ public class eSpellBehaviour : MonoBehaviour
     {
         if (isHoming == 1)
         {
-            moveDirection = PlayerController.instance.transform.position - transform.position;
+            moveDirection = playerRef.transform.position - transform.position;
             moveDirection.Normalize();
             float rotateAmount = Vector3.Cross(moveDirection, transform.right).z;
             RGBD.angularVelocity = -angleChangingSpeed * rotateAmount;
@@ -44,12 +46,20 @@ public class eSpellBehaviour : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         Destroy(gameObject);
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
         {
             PlayerStatusSystem.instance.magicDamage(Damage);
         }
+        if (other.CompareTag("Player mShield"))
+        {
+            other.GetComponent<mShieldScript>().ImpactShield(Damage);
+        }
+        if (other.CompareTag("Player Shield"))
+        {
+            other.GetComponent<ShieldScript>().ImpactShield(Damage);    
+        }
     }
-    private void OnBecameInvisible()
+    private void OnDestroy()
     {
         Instantiate(xplosionFX, transform.position, transform.rotation);
     }

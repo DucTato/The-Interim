@@ -5,31 +5,47 @@ using UnityEngine;
 public class mShieldScript : MonoBehaviour
 {
     [SerializeField] private Animator anim;
-    private CircleCollider2D magicShieldCol;
     [SerializeField] private GameObject[] mShieldImpactFX;
+    [SerializeField] private float manaCost;
+    private CircleCollider2D magicShieldCol;
+    private PlayerController playerRef;
+    private PlayerStatusSystem playerStats;
+    private float secondCounter;
     // Start is called before the first frame update
     void Start()
     {
         magicShieldCol= GetComponent<CircleCollider2D>();
+        playerRef = PlayerController.instance;
+        playerStats = PlayerStatusSystem.instance;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (PlayerController.instance.EPC)
+        if (playerRef.EPC)
         {
 
 
             // Hold Space Bar to use the Shield
-            if (Input.GetKey("space"))
+            if (Input.GetKey(KeyCode.Space) && playerStats.CheckManaThenPerfrom(manaCost))
             {
                 anim.SetBool("useShield", true);
-                PlayerController.instance.notShielding = false;
+                playerRef.notShielding = false;
+                if (secondCounter > 0)
+                {
+                    secondCounter -= Time.deltaTime;
+                }
+                else
+                {
+                    playerStats.ConsumeMana(manaCost);
+                    secondCounter = 1f;
+                }
             }
            else
             {
-                PlayerController.instance.notShielding = true;
+                playerRef.notShielding = true;
                 anim.SetBool("useShield", false);
+                secondCounter = 0f;
             }
         }
     }
@@ -40,5 +56,19 @@ public class mShieldScript : MonoBehaviour
     private void shieldDown()
     {
         magicShieldCol.enabled = false;
+    }
+    public void ImpactShield(float damage)
+    {
+        if(!playerStats.CheckManaThenPerfrom(damage))
+        {
+            playerStats.ConsumeMana(damage);
+            playerStats.currHealth -= damage * 0.8f;
+            UIController.instance.hpSlider.value = playerStats.currHealth;
+        }
+        else
+        {
+            playerStats.ConsumeMana(damage * 0.8f);
+        }
+        
     }
 }

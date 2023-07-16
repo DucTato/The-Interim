@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    private PlayerStatusSystem playerStats;
     public static CameraController instance;
     public Camera mainCamera;
-    public Transform target;
-    private float defaultZoom;
+    public Transform target, pausedTarget;
+
+    private float defaultZoom, currentZoom;
+    
     // Start is called before the first frame update
     private void Awake()
     {
@@ -16,6 +19,7 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         target = PlayerController.instance.transform;
+        playerStats = PlayerStatusSystem.instance;
         defaultZoom = 5f;
     }
 
@@ -26,17 +30,15 @@ public class CameraController : MonoBehaviour
         {
             transform.position = new Vector3 (target.position.x, target.position.y, -10f);
         }
-        if (Input.mouseScrollDelta.y > 0 && mainCamera.orthographicSize > 3)
+        if (playerStats.isPaused)
         {
-            mainCamera.orthographicSize--;
+            currentZoom = mainCamera.orthographicSize;
+            mainCamera.orthographicSize = Mathf.MoveTowards(currentZoom, 1.5f, 0.6f * 0.02f);
         }
-        if (Input.mouseScrollDelta.y < 0 && mainCamera.orthographicSize < defaultZoom*3) 
-        { 
-            mainCamera.orthographicSize++;
-        }
-        if (Input.GetMouseButtonDown(2))
+        else
         {
-            mainCamera.orthographicSize = defaultZoom;
+            currentZoom = mainCamera.orthographicSize;
+            mainCamera.orthographicSize = Mathf.MoveTowards(currentZoom, defaultZoom, 1f * 0.02f);
         }
     }
 }

@@ -5,31 +5,26 @@ using static UnityEngine.GraphicsBuffer;
 
 public class StaffCastingScript : MonoBehaviour
 {
-    [SerializeField]
-    private Transform[] shootPoints;
-    [SerializeField]
-    private GameObject[] spellsToCast;
-    [SerializeField]
-    private float delay;
-    private float shotCounter, attackCounter;
-    [SerializeField]
-    private int burstSize;
-    [SerializeField]
-    private float fireRate;
-    [SerializeField]
-    private Animator anim;
+    [SerializeField] private Transform[] shootPoints;
+    [SerializeField] private GameObject[] spellsToCast;
+    [SerializeField] private float delay;
+    [SerializeField] private int burstSize;
+    [SerializeField] private float fireRate;
+    [SerializeField] private Animator anim;
     [SerializeField] private BoxCollider2D collision;
-    [SerializeField]
-    private float knockBackRecovery;
+    [SerializeField] private float knockBackRecovery, spellCost;
     public float bashDamage;
     public float bashForce;
     private int currentShot;
+    private float shotCounter, attackCounter;
     private PlayerController playerRef;
+    private PlayerStatusSystem playerStats;
     // Start is called before the first frame update
     void Start()
     {
         currentShot = 1;
         playerRef = PlayerController.instance;
+        playerStats = PlayerStatusSystem.instance;
     }
 
     // Update is called once per frame
@@ -47,13 +42,14 @@ public class StaffCastingScript : MonoBehaviour
             }
             else
             {
-                if (Input.GetMouseButtonDown(1))// Right Click - Staff Bash Attacks
+                if (Input.GetMouseButtonDown(1) && playerStats.CheckStaminaThenPerform(20f))// Right Click - Staff Bash Attacks 
                 {
                     anim.SetTrigger("staffBash");
+                    playerStats.ConsumeStamina(20f);
                     attackCounter = 1.2f;
                 }
             }
-            if (Input.GetMouseButtonDown(0))// Hold down Left Click - Begin spell casting 
+            if (Input.GetMouseButtonDown(0) && playerStats.CheckManaThenPerfrom(spellCost * burstSize))// Hold down Left Click - Begin spell casting 
             {
                 anim.SetBool("isCasting", true);
             }
@@ -88,6 +84,7 @@ public class StaffCastingScript : MonoBehaviour
         {
             int n = Random.Range(0, shootPoints.Length);
             Instantiate(spellsToCast[0], shootPoints[n].position, shootPoints[n].rotation);
+            playerStats.ConsumeMana(spellCost);
             currentShot++;
         // Muzzle FX   
             yield return new WaitForSeconds(60f / fireRate);
@@ -98,29 +95,9 @@ public class StaffCastingScript : MonoBehaviour
         EnemyController ec = other.GetComponent<EnemyController>();
         if (ec != null)
         {
-            ec.isStunned = true;
-            BashKnockBack(ec.gameObject);
+            ec.BashKnockBack(bashForce, knockBackRecovery);
             ec.damageEnemy(bashDamage);
-
         }
     }
-    private void BashKnockBack(GameObject target)
-    {
-        StartCoroutine(KnockBackThenRecover(target, knockBackRecovery));
-        Rigidbody2D targetRB = target.GetComponent<Rigidbody2D>();
-        targetRB.velocity = Vector2.zero;
-        // Find the vector that represents the current position of the target and the player
-        Vector2 knockDirection = target.transform.position - playerRef.transform.position;
-        // Apply the force
-        targetRB.AddForce(knockDirection * bashForce, ForceMode2D.Impulse);
-        
-    }
-    private IEnumerator KnockBackThenRecover(GameObject target, float recoverTime)
-    {
-        target.GetComponent<EnemyPathFindingBehaviour>().enabled = false;
-        target.GetComponent<Animator>().SetBool("isMoving", false);
-        yield return new WaitForSeconds(recoverTime);
-        target.GetComponent<EnemyPathFindingBehaviour>().enabled = true;
-        target.GetComponent<EnemyController>().isStunned = false;
-    }
+   
 }

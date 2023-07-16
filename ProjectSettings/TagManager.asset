@@ -8,6 +8,10 @@ TagManager:
   - Enemy mBullet
   - Player Bullet
   - Enemy Bullet
+  - Player mShield
+  - Player Shield
+  - Boon Item
+  - Coin
   layers:
   - Default
   - TransparentFX

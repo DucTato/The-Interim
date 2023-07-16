@@ -92,7 +92,8 @@ MonoBehaviour:
   anim: {fileID: 6499029114159798724}
   collision: {fileID: 6499029114761925104}
   knockBackRecovery: 7
-  bashDamage: 1.2
+  spellCost: 26
+  bashDamage: 12
   bashForce: 6
 --- !u!95 &6499029114159798724
 Animator:
@@ -179,7 +180,7 @@ GameObject:
   - component: {fileID: 6499029114761925104}
   m_Layer: 8
   m_Name: staff
-  m_TagString: Untagged
+  m_TagString: Player Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
