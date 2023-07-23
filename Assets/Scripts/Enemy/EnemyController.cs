@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    private PlayerController playerRef;
     [SerializeField] protected float detectRange;
     [SerializeField] private float Health;
     [SerializeField] private GameObject rabidFX, coin;
@@ -16,6 +17,7 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerRef = PlayerController.instance;
         // Randomly pick a reward range (in coins)
         coinReward = Random.Range(coinReward, coinReward + 10);
         // Randomly decides if the monster is rabid or not upon spawning
@@ -27,6 +29,11 @@ public class EnemyController : MonoBehaviour
             detectRange += 3f;
             coinReward += Mathf.RoundToInt((float) coinReward * .2f);
         }
+        if(PlayerStatusSystem.instance.gameType == GameMode.ArenaMode)
+        {
+            // In Arena mode, Monster can always find you
+            detectRange = float.PositiveInfinity;
+        }
     }
 
     // Update is called once per frame
@@ -34,10 +41,10 @@ public class EnemyController : MonoBehaviour
     {
         if(!isStunned)
         {
-            if (Vector2.Distance(transform.position, PlayerController.instance.transform.position) < detectRange)
+            if (Vector2.Distance(transform.position, playerRef.transform.position) < detectRange)
             {
                 //Facing the player
-                if (transform.position.x > PlayerController.instance.transform.position.x)
+                if (transform.position.x > playerRef.transform.position.x)
                 {
                     transform.localScale = new Vector2(-1f, 1f);
                 }
@@ -58,7 +65,7 @@ public class EnemyController : MonoBehaviour
             GameObject drop = Instantiate(coin, transform.position, Quaternion.identity);
             drop.GetComponent<CoinScript>().coinAmount = coinReward;
             Destroy(gameObject);
-            
+            WaveController.instance.KillMonster();
         }
     }
     public void BashKnockBack(float bashForce,float knockBackRecovery)

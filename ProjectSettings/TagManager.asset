@@ -12,11 +12,12 @@ TagManager:
   - Player Shield
   - Boon Item
   - Coin
+  - Clairvoyance
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - RaycastHit
   - Water
   - UI
   - Player Shield
@@ -28,8 +29,8 @@ TagManager:
   - Ground
   - Walls
   - Obstacles
-  - 
-  - 
+  - Pickup
+  - Spawner
   - 
   - 
   - 

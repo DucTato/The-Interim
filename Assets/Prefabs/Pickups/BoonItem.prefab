@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5690314481288261980}
   - component: {fileID: 5690314481288261983}
   - component: {fileID: 2995120220898876858}
-  m_Layer: 14
+  m_Layer: 15
   m_Name: BoonItem
   m_TagString: Boon Item
   m_Icon: {fileID: 0}

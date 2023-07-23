@@ -184,7 +184,7 @@ MonoBehaviour:
   collision: {fileID: 31388016089685821}
   attackDelay: 0.6
   staminaCost: 15
-  Damage: 40
+  Damage: 80
 --- !u!50 &7698437227969008714
 Rigidbody2D:
   serializedVersion: 4

@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
+
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -10,9 +11,9 @@ public class UIController : MonoBehaviour
     PlayerStatusSystem playerStat;
     public static UIController instance;
     public Slider hpSlider,manaSlider,staSlider;
-    public GameObject sliderOutlines, pausePanel;
-    public Text coinText;
-    private float secondCounter, staminaCounter, manaCounter;
+    public GameObject sliderOutlines, pausePanel, ingamePanel, deathPanel;
+    public Text coinText, waveText, gameMessage;
+    private float secondCounter, staminaCounter, manaCounter, messageCounter;
 
     // Start is called before the first frame update
     private void Awake()
@@ -69,7 +70,7 @@ public class UIController : MonoBehaviour
         switch (type)
         {
             case 0:
-                StartCoroutine(BlinkThenWait(manaSlider));
+                StartCoroutine(BlinkThenWait(hpSlider));
                 break;
             case 1:
                 if (manaCounter <= 0)
@@ -109,5 +110,37 @@ public class UIController : MonoBehaviour
             coin = 999999999;
         }
         coinText.text = coin.ToString();
+    }
+    public void DisplayGameMessage(string message, float phaseDuration)
+    {
+        gameMessage.text = message;
+        if (messageCounter > 0)
+        {
+            messageCounter -= Time.deltaTime;
+        }
+        else
+        {
+            StartCoroutine(FlashMessage());
+            messageCounter = phaseDuration;
+        }
+    }
+    public void DisplayWaveText(string message)
+    {
+        waveText.text = message;        
+    }
+    private IEnumerator FlashMessage()
+    {
+        for (int i = 0; i < 3; i++) 
+        {
+            gameMessage.color = new Color(1f, 1f, 1f, 1f);
+            yield return new WaitForSeconds(0.5f);
+            gameMessage.color = Color.clear;
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+    public void ReturnToMenuButton()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Main Menu");
     }
 }

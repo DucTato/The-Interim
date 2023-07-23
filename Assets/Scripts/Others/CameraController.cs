@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    [SerializeField] private CameraType type;
     private PlayerStatusSystem playerStats;
+    private PlayerController playerRef;
     public static CameraController instance;
     public Camera mainCamera;
     public Transform target, pausedTarget;
-
-    private float defaultZoom, currentZoom;
     
+    private float defaultZoom, currentZoom;
+    [SerializeField] private float rotateSpeed, waitTime;
+    
+    // private float x = -90f;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -18,27 +22,57 @@ public class CameraController : MonoBehaviour
     }
     void Start()
     {
-        target = PlayerController.instance.transform;
-        playerStats = PlayerStatusSystem.instance;
-        defaultZoom = 5f;
+        if (type == CameraType.InGame)
+        {
+            target = PlayerController.instance.transform;
+            playerStats = PlayerStatusSystem.instance;
+            playerRef = PlayerController.instance;
+            defaultZoom = 5f;
+        }
+        
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (target!= null)
+        switch (type)
         {
-            transform.position = new Vector3 (target.position.x, target.position.y, -10f);
+            case CameraType.InGame:
+                if (playerStats.isPaused)
+                {
+                    target = pausedTarget;
+                    currentZoom = mainCamera.orthographicSize;
+                    mainCamera.orthographicSize = Mathf.MoveTowards(currentZoom, 0.5f, 0.6f * 0.02f);
+                }
+                else
+                {
+                    target = playerRef.transform;
+                    currentZoom = mainCamera.orthographicSize;
+                    mainCamera.orthographicSize = Mathf.MoveTowards(currentZoom, defaultZoom, 1f * 0.02f);
+                }
+                transform.position = new Vector3(target.position.x, target.position.y, -10f);
+                break;
+            case CameraType.MainMenu:
+                if (waitTime > 0)
+                    waitTime -= Time.deltaTime;
+                else
+                {
+                    // This line works fine but the rotation speed is inconsistent
+                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(Vector2.zero), Time.deltaTime * rotateSpeed);
+
+                    // This method also works but the rotation speed is consistent through out the entire transition
+                    //x = Mathf.MoveTowards(x, 0f, rotateSpeed * Time.deltaTime);
+                    //transform.rotation = Quaternion.Euler(x, 0f, 0f);
+                }
+                
+                break;
         }
-        if (playerStats.isPaused)
-        {
-            currentZoom = mainCamera.orthographicSize;
-            mainCamera.orthographicSize = Mathf.MoveTowards(currentZoom, 1.5f, 0.6f * 0.02f);
-        }
-        else
-        {
-            currentZoom = mainCamera.orthographicSize;
-            mainCamera.orthographicSize = Mathf.MoveTowards(currentZoom, defaultZoom, 1f * 0.02f);
-        }
+        
+    }
+    public enum CameraType
+    {
+        MainMenu = 0,
+        InGame = 1
     }
 }

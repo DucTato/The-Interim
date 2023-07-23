@@ -25,6 +25,11 @@ public class EnemyPathFindingBehaviour : MonoBehaviour
         RB = GetComponent<Rigidbody2D>();
         InvokeRepeating("updatePath", 0f, 0.5f);
         playerRef = PlayerController.instance;
+        if (PlayerStatusSystem.instance.gameType == GameMode.ArenaMode)
+        {
+            // In Arena mode, Monster can always come to you
+            chaseRange = float.PositiveInfinity;
+        }
     }
     private void updatePath()
     {

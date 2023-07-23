@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     
     public float runSpeed;
     public Animator anim;
-    [SerializeField] private Transform weaponHand;
+    [SerializeField] private Transform weaponHand, internalFlame;
     [SerializeField] private Rigidbody2D playerRB;
     
     [SerializeField] private float moveSpeed;
@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
         camRef = CameraController.instance;
         playerStats = PlayerStatusSystem.instance;
         currSpeed = moveSpeed;
+        camRef.pausedTarget = internalFlame;
     }
 
     // Update is called once per frame
@@ -123,7 +124,10 @@ public class PlayerController : MonoBehaviour
     }
     private void startDying()
     {
-        PlayerStatusSystem.instance.notInvinc = false;
+        playerStats.notInvinc = false;
         playerRB.velocity = Vector2.zero;
+        UIController.instance.ingamePanel.SetActive(false);
+        UIController.instance.deathPanel.SetActive(true);
     }
+    
 }

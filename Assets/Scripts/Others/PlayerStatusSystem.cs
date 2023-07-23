@@ -7,12 +7,13 @@ public class PlayerStatusSystem : MonoBehaviour
     public static PlayerStatusSystem instance;
     PlayerController playerRef;
     UIController uiRef;
-
+    public GameMode gameType;
     public float currHealth, currSta, currMana, staminaRecovery, manaRecovery;
     public float maxHealth, maxSta, maxMana, recoveryMult;
     public bool notInvinc, regenStamina, regenMana, hasVigor, isPaused;
     public int currentCoins;
-    private float staSecondCounter, manaSecondCounter, staminaCooldown, manaCooldown;
+    private float staSecondCounter, manaSecondCounter, staminaCooldown, manaCooldown, invincibleCount;
+    private SpriteRenderer bodySR;
 
     //public float currMana;
     //public float currSta;
@@ -42,7 +43,8 @@ public class PlayerStatusSystem : MonoBehaviour
         staSecondCounter = 0;
         manaSecondCounter = 0;
         recoveryMult = 1f;
-        
+        bodySR = playerRef.GetComponent<SpriteRenderer>();
+
     }
 
     // Update is called once per frame
@@ -50,17 +52,23 @@ public class PlayerStatusSystem : MonoBehaviour
     {
         CheckAndRegenStamina();
         CheckAndRegenMana();
-        if (Input.GetKeyUp(KeyCode.Escape))
+        if (invincibleCount > 0)
+        {
+            invincibleCount -= Time.deltaTime;
+        }
+        if (Input.GetKeyDown(KeyCode.Escape) && currHealth > 0)
         {
             PauseUnpause();
         }
     }
     public void magicDamage(float Damage)
     {
-        if (notInvinc)
+        if (notInvinc && invincibleCount <= 0)
         {
             // Magical Resistance is taken into account when dealing magical damage 
             currHealth -= (Damage * playerRef.magResistMult);
+            invincibleCount = 1.5f;
+            StartCoroutine(flashPlayer());
             // Update UI 
             uiRef.hpSlider.value = currHealth;
             if (currHealth <= 0)
@@ -72,10 +80,12 @@ public class PlayerStatusSystem : MonoBehaviour
     }
     public void physDamage(float Damage) 
     {
-        if (notInvinc)
+        if (notInvinc && invincibleCount <= 0)
         {
             // Physical Resistance is taken into account when dealing physical damage 
             currHealth -= (Damage * playerRef.physResistMult);
+            invincibleCount = 1.5f;
+            StartCoroutine(flashPlayer());
             // Update UI
             uiRef.hpSlider.value = currHealth;
             if (currHealth <= 0)
@@ -252,20 +262,38 @@ public class PlayerStatusSystem : MonoBehaviour
         if (!isPaused)
         {
             uiRef.pausePanel.SetActive(true);
-
+            uiRef.ingamePanel.SetActive(false);
             isPaused = true;
             playerRef.EPC = false;
             playerRef.followMouse = false;
-            Time.timeScale = 0f;
+            playerRef.anim.SetBool("isPaused", true);
+            Time.timeScale = 0;
         }
         else
         {
             uiRef.pausePanel.SetActive(false);
-
+            uiRef.ingamePanel.SetActive(true);
             isPaused = false;
             playerRef.EPC = true;
-            playerRef.followMouse = true;   
+            playerRef.followMouse = true;
+            playerRef.anim.SetBool("isPaused", false);
             Time.timeScale = 1f;
         }
     }
+    private IEnumerator flashPlayer()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            bodySR.color = new Color(1f, 1f, 1f, 0.5f);
+            yield return new WaitForSeconds(0.1f);
+            bodySR.color = new Color(1f, 1f, 1f, 1f);
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+}
+public enum GameMode
+{
+    StoryMode = 0,
+    ArenaMode =1
 }

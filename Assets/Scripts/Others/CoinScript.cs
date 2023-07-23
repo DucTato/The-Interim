@@ -32,8 +32,9 @@ public class CoinScript : MonoBehaviour
             Destroy(gameObject, 1.6f);
             // Picks up the coin
             coin.SetActive(false);
+            GetComponent<CircleCollider2D>().enabled = false;
             textElement.SetActive(true);
-           
+            
             PlayerStatusSystem.instance.AddCoins(coinAmount);
         }
     }

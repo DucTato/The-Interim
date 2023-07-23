@@ -16,6 +16,7 @@ public class SpellBehaviour : MonoBehaviour
     [SerializeField]
     private GameObject xplosionFX;
     public int dmgToGive;
+    [SerializeField] private ParticleSystem baseSpellEffect;
     private static bool hasTarget = false;
 
     // Start is called before the first frame update
@@ -27,6 +28,7 @@ public class SpellBehaviour : MonoBehaviour
             target = findClosestTarget().transform;
         }
         Destroy(gameObject, 6f); // Auto destroy after a while
+        //baseSpellEffect.Play();
     }
 
     // Update is called once per frame
@@ -70,7 +72,7 @@ public class SpellBehaviour : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        
+        Instantiate(xplosionFX, transform.position, Quaternion.identity);
         Destroy(gameObject);
         EnemyController ec = other.GetComponent<EnemyController>();
         if (ec != null)
@@ -78,8 +80,5 @@ public class SpellBehaviour : MonoBehaviour
             ec.damageEnemy(dmgToGive);
         }
     }
-    private void OnDestroy()
-    {
-        Instantiate(xplosionFX, transform.position, transform.rotation);
-    }
+    
 }

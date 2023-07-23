@@ -9,6 +9,7 @@ public class eSpellBehaviour : MonoBehaviour
     [SerializeField] private Rigidbody2D RGBD;
     [SerializeField] private GameObject xplosionFX;
     [SerializeField] private float Damage;
+    [SerializeField] private ParticleSystem spellEffect;
     private Vector3 moveDirection;
     private PlayerController playerRef;
     private int isHoming;
@@ -16,7 +17,9 @@ public class eSpellBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //spellEffect.Play();
         playerRef = PlayerController.instance;
+
         isHoming = Random.Range(0, 3); // Randomly decide if this spell should be Homing or not. Odd: 1 out of 3
         if (isHoming != 1) 
         {
@@ -45,6 +48,8 @@ public class eSpellBehaviour : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
+        Instantiate(xplosionFX, transform.position, Quaternion.identity);   
+        //spellEffect.Play();
         Destroy(gameObject);
         if (other.CompareTag("Player"))
         {
@@ -59,8 +64,5 @@ public class eSpellBehaviour : MonoBehaviour
             other.GetComponent<ShieldScript>().ImpactShield(Damage);    
         }
     }
-    private void OnDestroy()
-    {
-        Instantiate(xplosionFX, transform.position, transform.rotation);
-    }
+   
 }
