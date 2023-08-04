@@ -20,7 +20,7 @@ public class eSpellBehaviour : MonoBehaviour
         //spellEffect.Play();
         playerRef = PlayerController.instance;
 
-        isHoming = Random.Range(0, 3); // Randomly decide if this spell should be Homing or not. Odd: 1 out of 3
+        isHoming = Random.Range(0, 6); // Randomly decide if this spell should be Homing or not. Odd: 1 out of 5
         if (isHoming != 1) 
         {
             moveDirection = playerRef.transform.position - transform.position;

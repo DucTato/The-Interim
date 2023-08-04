@@ -5,29 +5,34 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance;
-    
+    public List<Equippables> availEquipment = new List<Equippables>();
     public float runSpeed;
     public Animator anim;
-    [SerializeField] private Transform weaponHand, internalFlame;
+    [SerializeField] private Transform weaponHand, weaponPoint;
     [SerializeField] private Rigidbody2D playerRB;
-    
     [SerializeField] private float moveSpeed;
     [SerializeField] private GameObject deadBody;
+    public Transform internalFlame;
     public float physResistMult, magResistMult, maxHealth, maxStamina, maxMana;
     private float currSpeed, secondCounter, angle;
     private Vector2 moveInput, mousePos, screenPoint;
     private CameraController camRef;
     private PlayerStatusSystem playerStats;
-
+    private int currentEquipment;
     // For custom interactions in which the player's input is ignored
     // EPC = Enable Player Control
     public bool EPC = true;
     public bool notShielding = true;
     public bool isRunning = false;
-    public bool followMouse = true;
-    
+    [HideInInspector]
+    public bool followMouse;
+
     // Start is called before the first frame update
-    private void Awake()
+    //private void Awake()
+    //{
+    //    instance = this;
+    //}
+    private void OnEnable()
     {
         instance = this;
     }
@@ -36,7 +41,9 @@ public class PlayerController : MonoBehaviour
         camRef = CameraController.instance;
         playerStats = PlayerStatusSystem.instance;
         currSpeed = moveSpeed;
-        camRef.pausedTarget = internalFlame;
+        //camRef.pausedTarget = internalFlame;
+        currentEquipment = 0;
+        SwitchEquipment();
     }
 
     // Update is called once per frame
@@ -65,7 +72,69 @@ public class PlayerController : MonoBehaviour
             }
             Vector2 offset = new Vector2(mousePos.x - screenPoint.x, mousePos.y - screenPoint.y);
             angle = Mathf.Atan2(offset.y, offset.x) * 57.295f;
-            
+            // Equipment switch mechanic. Player can press Q to cycle through each weapon or press 1, 2 or 3 respectively
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                if (availEquipment.Count > 0)
+                {
+                    //Rebind animator
+                    availEquipment[currentEquipment].anim.Rebind();
+                    availEquipment[currentEquipment].anim.Update(0f);
+                    currentEquipment++;
+                    if (currentEquipment >= availEquipment.Count)
+                    {
+                        currentEquipment = 0;
+                    }
+                    SwitchEquipment();
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                if (availEquipment.Count > 0 && currentEquipment != 0)
+                {
+                    //Rebind animator
+                    availEquipment[currentEquipment].anim.Rebind();
+                    availEquipment[currentEquipment].anim.Update(0f);
+                    currentEquipment = 0;
+                    SwitchEquipment();
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                if (availEquipment.Count >= 2 && currentEquipment != 1)
+                {
+                    //Rebind animator
+                    availEquipment[currentEquipment].anim.Rebind();
+                    availEquipment[currentEquipment].anim.Update(0f);
+                    currentEquipment = 1;
+                    SwitchEquipment();
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                if (availEquipment.Count == 3 && currentEquipment != 2)
+                {
+                    //Rebind animator
+                    availEquipment[currentEquipment].anim.Rebind();
+                    availEquipment[currentEquipment].anim.Update(0f);
+                    currentEquipment = 2;
+                    SwitchEquipment();
+                }
+            }
+            ///////////////////////////////////////////////////
+            // Drop the holding equipment
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                if (currentEquipment >= 0)
+                {
+                    Instantiate(availEquipment[currentEquipment].droppedObject, weaponPoint.transform.position, Quaternion.identity);
+                    RemoveEquipment(currentEquipment);
+                }
+            }
+        }
+        else
+        {
+            playerRB.velocity = Vector2.zero;
         }
         
         if (followMouse)
@@ -129,5 +198,58 @@ public class PlayerController : MonoBehaviour
         UIController.instance.ingamePanel.SetActive(false);
         UIController.instance.deathPanel.SetActive(true);
     }
-    
+    public void SwitchEquipment()
+    {
+        foreach (Equippables equips in availEquipment)
+        {
+            equips.gameObject.SetActive(false);
+        }
+        UIController.instance.UpdateEquipmentUI(availEquipment[currentEquipment]);
+        availEquipment[currentEquipment].gameObject.SetActive(true);
+        followMouse = availEquipment[currentEquipment].needMouseAim;
+    }
+    // Checks if the Player already has that item. However I think it's alright to have duplicates
+    //public bool CheckEquipment(string name)
+    //{
+    //    foreach (Equippables item in availEquipment)
+    //    {
+    //        if (item.equipmentName == name)
+    //            return true;
+    //        else
+    //            continue;
+    //    }
+    //    return false;
+    //}
+    public void AddEquipment(Equippables equip)
+    {
+        Equippables clone = Instantiate(equip);
+        clone.transform.position = weaponPoint.position;
+        clone.transform.parent = weaponPoint;
+        clone.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        clone.transform.localScale = Vector3.one;
+        availEquipment.Add(clone);
+        currentEquipment = availEquipment.Count - 1;
+        SwitchEquipment();
+    }
+    public void RemoveEquipment(int index)
+    {
+        Destroy(availEquipment[index].gameObject);
+        availEquipment.RemoveAt(index);
+        
+        if (availEquipment.Count == 0)
+        {
+            UIController.instance.SetUIBareHand();
+            followMouse = false;
+            currentEquipment = -1;
+        }
+        else
+        {
+            if(currentEquipment >= availEquipment.Count)
+            {
+                currentEquipment = availEquipment.Count - 1;
+            }
+            SwitchEquipment();
+        }
+            
+    }
 }

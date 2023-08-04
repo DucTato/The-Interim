@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,6 +13,9 @@ public class UIController : MonoBehaviour
     public Slider hpSlider,manaSlider,staSlider;
     public GameObject sliderOutlines, pausePanel, ingamePanel, deathPanel;
     public Text coinText, waveText, gameMessage;
+    public TextMeshProUGUI itemName;
+    [SerializeField] private Sprite bareHand;
+    public Image equipmentImage;
     private float secondCounter, staminaCounter, manaCounter, messageCounter;
 
     // Start is called before the first frame update
@@ -142,5 +145,33 @@ public class UIController : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("Main Menu");
+    }
+    public void UpdateEquipmentUI(Equippables item)
+    {
+        itemName.text = item.equipmentName;
+        equipmentImage.sprite = item.equipmentUiSprite;
+    }
+    public void SetUIBareHand()
+    {
+        equipmentImage.sprite = bareHand;
+        itemName.text = "Bare hand";
+    }
+    public void SetPausePanel(bool state)
+    {
+        pausePanel.SetActive(state);
+    }
+    public void SetIngameElements(bool state)
+    {
+        if(state)
+        {
+            // Updates the values before enabling them all
+            hpSlider.maxValue = playerStat.maxHealth;
+            hpSlider.value = playerStat.currHealth;
+            manaSlider.maxValue = playerStat.maxMana;
+            manaSlider.value = playerStat.currMana;
+            staSlider.maxValue = playerStat.maxSta;
+            staSlider.value = playerStat.currSta;
+        }
+        ingamePanel.SetActive(state);
     }
 }

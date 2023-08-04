@@ -10,7 +10,7 @@ public class PlayerStatusSystem : MonoBehaviour
     public GameMode gameType;
     public float currHealth, currSta, currMana, staminaRecovery, manaRecovery;
     public float maxHealth, maxSta, maxMana, recoveryMult;
-    public bool notInvinc, regenStamina, regenMana, hasVigor, isPaused;
+    public bool notInvinc, regenStamina, regenMana, hasVigor, isPaused, isBuying;
     public int currentCoins;
     private float staSecondCounter, manaSecondCounter, staminaCooldown, manaCooldown, invincibleCount;
     private SpriteRenderer bodySR;
@@ -40,6 +40,7 @@ public class PlayerStatusSystem : MonoBehaviour
         regenStamina = false; 
         regenMana = false;
         hasVigor = false;
+        isBuying = false;
         staSecondCounter = 0;
         manaSecondCounter = 0;
         recoveryMult = 1f;
@@ -56,9 +57,12 @@ public class PlayerStatusSystem : MonoBehaviour
         {
             invincibleCount -= Time.deltaTime;
         }
-        if (Input.GetKeyDown(KeyCode.Escape) && currHealth > 0)
+        if (!isBuying)
         {
-            PauseUnpause();
+            if (Input.GetKeyDown(KeyCode.Escape) && currHealth > 0)
+            {
+                PauseUnpause();
+            }
         }
     }
     public void magicDamage(float Damage)
@@ -125,7 +129,7 @@ public class PlayerStatusSystem : MonoBehaviour
     {
         currMana -= amount;
         uiRef.manaSlider.value = currMana;
-        manaCooldown = 2f;
+        manaCooldown = 1f;
         if (currMana <= 0)
         {
             regenMana = true;
@@ -135,7 +139,7 @@ public class PlayerStatusSystem : MonoBehaviour
     {
         currSta -= amount;
         uiRef.staSlider.value = currSta;
-        staminaCooldown = 2f;
+        staminaCooldown = 1f;
         if (currSta <= 0)
         {
             regenStamina = true;
@@ -151,7 +155,7 @@ public class PlayerStatusSystem : MonoBehaviour
             }
             else
             {
-                // Starts regenerating Mana after 2 seconds since the last action
+                // Starts regenerating Mana after 1 seconds since the last action
                 if (manaSecondCounter > 0)
                 {
                     manaSecondCounter -= Time.deltaTime;
@@ -183,7 +187,7 @@ public class PlayerStatusSystem : MonoBehaviour
             }
             else
             {
-                //Starts regenerating Stamina after 2 seconds since the last action
+                //Starts regenerating Stamina after 1 second since the last action
                 if (staSecondCounter > 0)
                 {
                     staSecondCounter -= Time.deltaTime;
@@ -214,6 +218,21 @@ public class PlayerStatusSystem : MonoBehaviour
             currHealth = maxHealth;
         }
         uiRef.hpSlider.value = currHealth;
+    }
+    public void UpgradeHealth()
+    {
+        maxHealth += 100f;
+        currHealth = maxHealth;
+    }
+    public void UpgradeMana()
+    {
+        maxMana += 100f;
+        currMana = maxMana;
+    }
+    public void UpgradeStamina()
+    {
+        maxSta += 100f;
+        currSta = maxSta;
     }
     public void RecoverMana(float amount)
     {
@@ -261,9 +280,10 @@ public class PlayerStatusSystem : MonoBehaviour
     {
         if (!isPaused)
         {
-            uiRef.pausePanel.SetActive(true);
-            uiRef.ingamePanel.SetActive(false);
             isPaused = true;
+            uiRef.SetPausePanel(isPaused);
+            uiRef.SetIngameElements(false);
+            CameraController.instance.CameraZoom(playerRef.internalFlame, true, 0.5f);
             playerRef.EPC = false;
             playerRef.followMouse = false;
             playerRef.anim.SetBool("isPaused", true);
@@ -271,9 +291,10 @@ public class PlayerStatusSystem : MonoBehaviour
         }
         else
         {
-            uiRef.pausePanel.SetActive(false);
-            uiRef.ingamePanel.SetActive(true);
             isPaused = false;
+            uiRef.SetPausePanel(isPaused);
+            uiRef.SetIngameElements(true);
+            CameraController.instance.CameraZoom(false);
             playerRef.EPC = true;
             playerRef.followMouse = true;
             playerRef.anim.SetBool("isPaused", false);

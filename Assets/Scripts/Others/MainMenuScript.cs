@@ -11,7 +11,7 @@ public class MainMenuScript : MonoBehaviour
     [SerializeField] private float fadeSpeed, waitTime, titleFadeSpeed;
     [SerializeField] private TextMeshProUGUI title;
     [SerializeField] private GameObject interactables, arenaPanel;
-    [SerializeField] private bool fadeIn, fadeOut;
+    public bool fadeIn, fadeOut;
     private bool firstStart;
     private void Awake()
     {

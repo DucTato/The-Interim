@@ -39,7 +39,7 @@ public class ArenaModeScript : MonoBehaviour
     }
     public void StartButton()
     {
-        SceneManager.LoadScene(selectedMap);
+        StartCoroutine(WaitThenLoad());
     }
     public void CharacterButton()
     {
@@ -104,13 +104,21 @@ public class ArenaModeScript : MonoBehaviour
     private void UpdateCurrentCharacter()
     {
         classText.text = "Class\t\t" + "<color=#fff0db>" + charClass[currentClass].classType + "</color>";
-        skinText.text = " Skin \t\t\t" + "<color=#fff0db>" + currentSkin + "</color>";
-        statText.text = "<color=#ff6663>HP: </color>" + charClass[currentClass].startingHealth + "\t\t<color=#9ec1cf>MP: </color>" + charClass[currentClass].startingMana + "\t\t<color=#9ee09e>SP: </color>" + charClass[currentClass].startingStamina;
+        skinText.text = " Skin \t\t\t" + "<color=#fff0db>" + (currentSkin + 1) + "</color>";
+        statText.text = "<color=#ff6663>HP: </color>" + charClass[currentClass].startingHealth + "\t\t<color=#9ec1cf>MP: </color>" + charClass[currentClass].startingMana + "\t\t<color=#9ee09e>SP: </color>" + charClass[currentClass].startingStamina
+                            + "\n<color=#fdfd97>Mag  Resist: </color>\t" + ((1f - charClass[currentClass].magResistance) * 100f) +" %"
+                            + "\n<color=#fdfd97>Phys Resist: </color>\t" + ((1f - charClass[currentClass].physResistance) * 100f) +" %";
         characterPreview.sprite = charClass[currentClass].currentCharacterSkin[currentSkin].characterPreview;
     }
     private void UpdateCurrentCharacterAvatar()
     {
         characterAvatar.sprite = charClass[currentClass].currentCharacterSkin[currentSkin].avatar;
+    }
+    private IEnumerator WaitThenLoad()
+    {
+        MainMenuScript.instance.fadeIn = true;
+        yield return new WaitForSeconds(3.3f);
+        SceneManager.LoadScene(selectedMap);
     }
 }
 [System.Serializable]

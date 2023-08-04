@@ -157,6 +157,7 @@ MonoBehaviour:
   rabidFX: {fileID: 2409020224371644001}
   coin: {fileID: 3744277593928794670, guid: fc7b6d1cca2a8ae4b9ef2407c1c2bae0, type: 3}
   coinReward: 40
+  scoreReward: 20
   isStunned: 0
 --- !u!50 &2398889562890144573
 Rigidbody2D:

@@ -10,7 +10,7 @@ public class WaveController : MonoBehaviour
     public static WaveController instance;
     public WaveBehaviour[] Wave;
     [HideInInspector]
-    public int currentNumberOfMonsters, currentWave, maxMonster, maxWave;
+    public int currentNumberOfMonsters, currentWave, maxMonster, maxWave, onGoingScore;
     private UIController uiRef;
     //private PlayerStatusSystem playerStats;
     private float timeCounter, typeLimit;
@@ -28,6 +28,7 @@ public class WaveController : MonoBehaviour
         currentNumberOfMonsters= 0;
         maxMonster = TotalMonster(Wave[currentWave].numberOfMonsters);
         typeLimit = 1;
+        onGoingScore = 0;
     }
 
     // Update is called once per frame
@@ -139,9 +140,10 @@ public class WaveController : MonoBehaviour
             SceneManager.LoadScene("Main Menu");
         }
     }
-    public void KillMonster()
+    public void KillMonster(int score)
     {
         currentNumberOfMonsters++;
+        onGoingScore += score;
     }
     private void SpawnMonster(GameObject[] spawningMonster, int[] monstersNumber)
     {

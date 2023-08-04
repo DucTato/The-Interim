@@ -179,7 +179,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f0c086b9769f964abe44c809ff2e9d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needMouseAim: 1
   anim: {fileID: 8869976030457455982}
+  equipmentName: Claymore
+  equipmentUiSprite: {fileID: 1384437883, guid: 947bc7b13ea7c794f8a36535b98dff39, type: 3}
+  droppedObject: {fileID: 430961218582264455, guid: fee711c358638d94ca17fe0ea5cfe18c, type: 3}
+  description: A large and heavy weapon. Favored for its excellent damage and good
+    range
+  value: 125
   type: 0
   collision: {fileID: 31388016089685821}
   attackDelay: 0.6

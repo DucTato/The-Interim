@@ -81,6 +81,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b61f9bea9db29342b90c218f9ff26a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needMouseAim: 1
+  anim: {fileID: 6499029114159798724}
+  equipmentName: Stone Staff
+  equipmentUiSprite: {fileID: 587818359, guid: 526da1925b9af3948a4e2ffdabaae951, type: 3}
+  droppedObject: {fileID: 430961218582264455, guid: 06efcc5287f642b43ab38d80c672d6d7, type: 3}
+  description: A crude staff. Its magical potency is not good at all, but the stone
+    tip is good for melee attacks.
+  value: 45
   shootPoints:
   - {fileID: 6499029114528553213}
   - {fileID: 6499029115060799071}
@@ -89,7 +97,6 @@ MonoBehaviour:
   delay: 0.6
   burstSize: 1
   fireRate: 150
-  anim: {fileID: 6499029114159798724}
   collision: {fileID: 6499029114761925104}
   knockBackRecovery: 7
   spellCost: 26
@@ -193,7 +200,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6499029114761925119}
   m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:

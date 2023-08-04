@@ -2,27 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeleeScript : MonoBehaviour
+public class MeleeScript : Equippables
 {
     
-    [SerializeField] private Animator anim;
+    
     [SerializeField] private MeleeType type;
     [SerializeField] private BoxCollider2D collision;
     [SerializeField] private float attackDelay, staminaCost;
 
     //[SerializeField] private Transform effectPoint;
     //[SerializeField] private float effectRadius;
-    private int meleeType;
+    private int meleeType ;
     private PlayerController playerRef;
     private PlayerStatusSystem playerStats;
     private float timeBetweenLAttacks, timeBetweenHAttacks;
     public float Damage;
+
     // Start is called before the first frame update
     void Start()
     {
-        playerRef = PlayerController.instance;
-        playerStats = PlayerStatusSystem.instance;
         meleeType = (int)type;
+        playerStats = PlayerStatusSystem.instance;
+        playerRef = PlayerController.instance;
     }
 
     // Update is called once per frame

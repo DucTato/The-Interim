@@ -1,16 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
-public class StaffCastingScript : MonoBehaviour
+
+public class StaffCastingScript : Equippables
 {
     [SerializeField] private Transform[] shootPoints;
     [SerializeField] private GameObject[] spellsToCast;
     [SerializeField] private float delay;
     [SerializeField] private int burstSize;
     [SerializeField] private float fireRate;
-    [SerializeField] private Animator anim;
+    
     [SerializeField] private BoxCollider2D collision;
     [SerializeField] private float knockBackRecovery, spellCost;
     public float bashDamage;
@@ -19,12 +19,13 @@ public class StaffCastingScript : MonoBehaviour
     private float shotCounter, attackCounter;
     private PlayerController playerRef;
     private PlayerStatusSystem playerStats;
+    
     // Start is called before the first frame update
     void Start()
     {
         currentShot = 1;
-        playerRef = PlayerController.instance;
         playerStats = PlayerStatusSystem.instance;
+        playerRef = PlayerController.instance;
     }
 
     // Update is called once per frame

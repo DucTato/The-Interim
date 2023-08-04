@@ -9,7 +9,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] protected float detectRange;
     [SerializeField] private float Health;
     [SerializeField] private GameObject rabidFX, coin;
-    [SerializeField] private int coinReward;
+    [SerializeField] private int coinReward, scoreReward;
    
     public bool isStunned;
     
@@ -20,14 +20,15 @@ public class EnemyController : MonoBehaviour
         playerRef = PlayerController.instance;
         // Randomly pick a reward range (in coins)
         coinReward = Random.Range(coinReward, coinReward + 10);
-        // Randomly decides if the monster is rabid or not upon spawning
-        if(1 == Random.Range(0,2))
+        // Randomly decides if the monster is rabid or not upon spawning. Chance: 1 out of 5
+        if(1 == Random.Range(0,6))
         {
             GetComponent<EnemyPathFindingBehaviour>().isRabid = true;
             rabidFX.SetActive(true);
             Health *= 0.5f;
             detectRange += 3f;
             coinReward += Mathf.RoundToInt((float) coinReward * .2f);
+            scoreReward += Mathf.RoundToInt((float)scoreReward * .2f);
         }
         if(PlayerStatusSystem.instance.gameType == GameMode.ArenaMode)
         {
@@ -65,7 +66,7 @@ public class EnemyController : MonoBehaviour
             GameObject drop = Instantiate(coin, transform.position, Quaternion.identity);
             drop.GetComponent<CoinScript>().coinAmount = coinReward;
             Destroy(gameObject);
-            WaveController.instance.KillMonster();
+            WaveController.instance.KillMonster(scoreReward);
         }
     }
     public void BashKnockBack(float bashForce,float knockBackRecovery)

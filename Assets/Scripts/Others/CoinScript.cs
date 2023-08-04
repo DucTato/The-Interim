@@ -13,7 +13,7 @@ public class CoinScript : MonoBehaviour
     void Start()
     {
         timeToPickup = 0.5f;
-        textElement.GetComponent<CoinTextElement>().amount = coinAmount;
+        textElement.GetComponent<CoinTextElement>().SetCoinPopUpText(coinAmount, false);
         dropDirection.y = Random.Range(-3f, 3f);
         dropDirection.x = Random.Range(-3f, 3f);
     }

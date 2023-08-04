@@ -9,9 +9,9 @@ public class CameraController : MonoBehaviour
     private PlayerController playerRef;
     public static CameraController instance;
     public Camera mainCamera;
-    public Transform target, pausedTarget;
-    
-    private float defaultZoom, currentZoom;
+    public Transform target;
+    private bool isZoom;
+    private float defaultZoom, currentZoom, zoomValue;
     [SerializeField] private float rotateSpeed, waitTime;
     
     // private float x = -90f;
@@ -24,13 +24,13 @@ public class CameraController : MonoBehaviour
     {
         if (type == CameraType.InGame)
         {
-            target = PlayerController.instance.transform;
-            playerStats = PlayerStatusSystem.instance;
+            //playerStats = PlayerStatusSystem.instance;
             playerRef = PlayerController.instance;
+            target = playerRef.transform;
             defaultZoom = 5f;
         }
-        
-        
+        isZoom = false;
+        zoomValue = 0.5f;
     }
 
     // Update is called once per frame
@@ -39,15 +39,13 @@ public class CameraController : MonoBehaviour
         switch (type)
         {
             case CameraType.InGame:
-                if (playerStats.isPaused)
+                if (isZoom)
                 {
-                    target = pausedTarget;
                     currentZoom = mainCamera.orthographicSize;
-                    mainCamera.orthographicSize = Mathf.MoveTowards(currentZoom, 0.5f, 0.6f * 0.02f);
+                    mainCamera.orthographicSize = Mathf.MoveTowards(currentZoom, zoomValue, 0.6f * 0.02f);
                 }
                 else
                 {
-                    target = playerRef.transform;
                     currentZoom = mainCamera.orthographicSize;
                     mainCamera.orthographicSize = Mathf.MoveTowards(currentZoom, defaultZoom, 1f * 0.02f);
                 }
@@ -69,6 +67,17 @@ public class CameraController : MonoBehaviour
                 break;
         }
         
+    }
+    public void CameraZoom (Transform zoomTarget, bool value, float zoomAmount)
+    {
+        isZoom = value;
+        target = zoomTarget;
+        zoomValue = zoomAmount;
+    }
+    public void CameraZoom (bool value)
+    {
+        target = playerRef.transform;
+        isZoom = value;
     }
     public enum CameraType
     {

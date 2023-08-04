@@ -6,7 +6,8 @@ public class OletteScript : MonoBehaviour
 {
     public static OletteScript instance;
     private PlayerController playerRef;
-    [SerializeField] private GameObject notification, dialogue, clairvoyance;
+    private DialogueBehaviour dialogueScript;
+    [SerializeField] private GameObject notification, dialogue, clairvoyance, buyMenu;
     [SerializeField] private float lookRange;
     private bool nearPlayer, isBuying;
     //private string oletteMessage;
@@ -17,8 +18,8 @@ public class OletteScript : MonoBehaviour
    
     private void OnEnable()
     {
-        playerRef = PlayerController.instance;
-        clairvoyance.transform.position = playerRef.transform.position;
+        
+        clairvoyance.transform.position = PlayerController.instance.transform.position;
         clairvoyance.SetActive(true);
         nearPlayer = false;
         isBuying = false;
@@ -26,6 +27,11 @@ public class OletteScript : MonoBehaviour
     private void OnDisable()
     {
         clairvoyance.SetActive(false);
+    }
+    private void Start()
+    {
+        playerRef = PlayerController.instance;
+        dialogueScript = dialogue.GetComponent<DialogueBehaviour>();
     }
     // Update is called once per frame
     void Update()
@@ -46,12 +52,12 @@ public class OletteScript : MonoBehaviour
             if (!isBuying)
             {
                 // Displays dialogue when they player is within look range and is not buying (not opening the Buy menu)
-                dialogue.SetActive(true);
+                dialogueScript.canRandomChatter = true;
             }
             else
             {
                 // Player is opening the Buy menu
-                dialogue.SetActive(false);
+                dialogueScript.canRandomChatter = false;
             }
             clairvoyance.SetActive(false);
         }
@@ -65,7 +71,7 @@ public class OletteScript : MonoBehaviour
             // Allows Player Interaction
             if (Input.GetKeyDown(KeyCode.E)) 
             {
-                isBuying = true;
+                BuyUnbuy();
             }
         }
     }
@@ -78,7 +84,6 @@ public class OletteScript : MonoBehaviour
         }
         if (collision.CompareTag("Clairvoyance"))
         {
-            //StartCoroutine(ClairvoyanceEffect());
             clairvoyance.transform.position = playerRef.transform.position;
         }
     }
@@ -90,11 +95,23 @@ public class OletteScript : MonoBehaviour
             notification.SetActive(false);
         }
     }
-    //private IEnumerator ClairvoyanceEffect()
-    //{
-    //    clairvoyance.GetComponent<TrailRenderer>().enabled = false;
-    //    clairvoyance.transform.position = playerRef.transform.position;
-    //    yield return new WaitForSeconds(0.5f);
-    //    clairvoyance.GetComponent<TrailRenderer>().enabled = true;
-    //}
+    private void BuyUnbuy()
+    {
+        if (isBuying)
+        {
+            isBuying = false;
+            PlayerController.instance.EPC = !isBuying;
+            buyMenu.SetActive(isBuying);
+            UIController.instance.SetIngameElements(true);
+            CameraController.instance.CameraZoom(isBuying);
+        }
+        else
+        {
+            isBuying = true;
+            PlayerController.instance.EPC = !isBuying;
+            UIController.instance.SetIngameElements(false);
+            buyMenu.SetActive(isBuying);
+            CameraController.instance.CameraZoom(buyMenu.transform, isBuying, 3.9f);
+        }
+    }
 }
