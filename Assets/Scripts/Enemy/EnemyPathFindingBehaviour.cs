@@ -13,10 +13,11 @@ public class EnemyPathFindingBehaviour : MonoBehaviour
     private Seeker seeker;
     private PlayerController playerRef;
     private int currWayPoint;
-    private bool reachedEoP;
+    private bool reachedEoP, followForDuration;
     private Rigidbody2D RB;
-    private Transform target;
+    private Transform target, currentTarget;
     private Vector2 moveDirection;
+    private float duration;
     private Path path;
     // Start is called before the first frame update
     void Start()
@@ -51,16 +52,28 @@ public class EnemyPathFindingBehaviour : MonoBehaviour
         {
             if (playerRef.gameObject.activeInHierarchy)
             {
-                if (Vector2.Distance(transform.position, playerRef.transform.position) < chaseRange)
+                if (followForDuration)
                 {
-                    // Only chase the Player when within range
-
-                    target = playerRef.transform;
+                    duration -= Time.deltaTime;
+                    if (duration <= 0)
+                    {
+                        followForDuration = false;
+                        //target = currentTarget;
+                    }
                 }
                 else
                 {
-                    target = null;
+                    if (Vector2.Distance(transform.position, currentTarget.position) < chaseRange)
+                    {
+                        // Only chase the Player when within range
 
+                        target = currentTarget;
+                    }
+                    else
+                    {
+                        target = null;
+
+                    }
                 }
                 if (path == null)
                 {
@@ -75,7 +88,6 @@ public class EnemyPathFindingBehaviour : MonoBehaviour
                 {
                     reachedEoP = false;
                 }
-
                 moveDirection = ((Vector2)path.vectorPath[currWayPoint] - RB.position).normalized; // Calculates the path from current position to the next point in the Path
                 RB.velocity = moveDirection * moveSpeed;
 
@@ -113,9 +125,9 @@ public class EnemyPathFindingBehaviour : MonoBehaviour
         else
         {
             // If a monster is rabid/crazy, it can detect the player further
-            if(Vector2.Distance(transform.position, playerRef.transform.position) < chaseRange + 3f) 
+            if(Vector2.Distance(transform.position, currentTarget.position) < chaseRange + 3f) 
             { 
-                moveDirection = playerRef.transform.position - transform.position;
+                moveDirection = currentTarget.position - transform.position;
             }
             else
             {
@@ -137,5 +149,21 @@ public class EnemyPathFindingBehaviour : MonoBehaviour
         }
 
     }
-    
+    public void SetFollowTarget(Vector3 position, float followDuration)
+    {
+        if (!followForDuration)
+        {
+            target.position = position;
+            followForDuration = true;
+            duration = followDuration;
+        }
+    }
+    public void SetFollowTarget(Transform followee)
+    {
+        currentTarget = followee;
+    }
+    public void ChangeMoveSpeed(float speed)
+    {
+        moveSpeed = speed;
+    }
 }

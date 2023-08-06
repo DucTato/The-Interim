@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class WaveController : MonoBehaviour
 {
     [SerializeField] private GameObject oletteVendor;
+    [SerializeField] private Transform startPoint;
     [SerializeField] private BoxCollider2D[] spawners;
     public static WaveController instance;
     public WaveBehaviour[] Wave;
@@ -13,11 +14,14 @@ public class WaveController : MonoBehaviour
     public int currentNumberOfMonsters, currentWave, maxMonster, maxWave, onGoingScore;
     private UIController uiRef;
     //private PlayerStatusSystem playerStats;
-    private float timeCounter, typeLimit;
+    private float timeCounter, typeLimit, endOfGameWait;
+    private bool endOfGame;
+    private string nextMap;
     //private string waveMessage;
     private void Awake()
     {
         instance = this;
+        NewGameProcedure();
     }
     // Start is called before the first frame update
     void Start()
@@ -29,77 +33,89 @@ public class WaveController : MonoBehaviour
         maxMonster = TotalMonster(Wave[currentWave].numberOfMonsters);
         typeLimit = 1;
         onGoingScore = 0;
+        endOfGame = false;
+        endOfGameWait = 3.3f;
     }
 
     // Update is called once per frame
     void Update()
     {
-       
-        if (Wave[currentWave].isBuyPhase)
-        {
-            // If true then this is a buy phase. Do what a buy phase would do
-            
-            // Buy phase has a duration of 1.5 minutes
-            Wave[currentWave].phaseDuration -= Time.deltaTime;
-            // Calls UI to update the timer
-            uiRef.DisplayWaveText(Wave[currentWave].waveName + "\n" + Mathf.RoundToInt(Wave[currentWave].phaseDuration));
-            // End of phase condition
-            if (Wave[currentWave].phaseDuration <= 0)
+       if(!endOfGame)
+       {
+            if (Wave[currentWave].isBuyPhase)
             {
-                oletteVendor.SetActive(false);
-                ContinueWave();
-            }
-        }
-        else if (Wave[currentWave].waveEnd || Wave[currentWave].waveStart)
-        {
-            uiRef.DisplayWaveText(Wave[currentWave].waveName);
-            // Start of a wave and End of a wave have different durations
-            Wave[currentWave].phaseDuration -= Time.deltaTime;
-                
-            if (Wave[currentWave].phaseDuration <= 0)
-            {
-                ContinueWave();
-            }
-            // Calls UI to display Start/End of wave message
-            if (Wave[currentWave].waveStart)
-            {
-                uiRef.DisplayGameMessage("Get Ready!", Wave[currentWave].phaseDuration);
-            }
-            else
-            {
-                if (currentWave == maxWave - 1)
+                // If true then this is a buy phase. Do what a buy phase would do
+
+                // Buy phase has a duration of 1.5 minutes
+                Wave[currentWave].phaseDuration -= Time.deltaTime;
+                // Calls UI to update the timer
+                uiRef.DisplayWaveText(Wave[currentWave].waveName + "\n" + Mathf.RoundToInt(Wave[currentWave].phaseDuration));
+                // End of phase condition
+                if (Wave[currentWave].phaseDuration <= 0)
                 {
-                    uiRef.DisplayGameMessage("Wave Completed\nYou Won!", Wave[currentWave].phaseDuration);
+                    oletteVendor.SetActive(false);
+                    ContinueWave();
+                }
+            }
+            else if (Wave[currentWave].waveEnd || Wave[currentWave].waveStart)
+            {
+                uiRef.DisplayWaveText(Wave[currentWave].waveName);
+                // Start of a wave and End of a wave have different durations
+                Wave[currentWave].phaseDuration -= Time.deltaTime;
+
+                if (Wave[currentWave].phaseDuration <= 0)
+                {
+                    ContinueWave();
+                }
+                // Calls UI to display Start/End of wave message
+                if (Wave[currentWave].waveStart)
+                {
+                    uiRef.DisplayGameMessage("Get Ready!", Wave[currentWave].phaseDuration);
                 }
                 else
-                    uiRef.DisplayGameMessage("Wave Completed!", Wave[currentWave].phaseDuration);
-            }
-        }
-        else
-        {
-            // If not all of the above phases, it's action phase in which monsters should be spawned in
-            uiRef.DisplayWaveText(Wave[currentWave].waveName + "\n" + currentNumberOfMonsters + "/" + maxMonster);
-            if (timeCounter > 0)
-            {
-                timeCounter -= Time.deltaTime;
+                {
+                    if (currentWave == maxWave - 1)
+                    {
+                        uiRef.DisplayGameMessage("Wave Completed\nYou Won!", Wave[currentWave].phaseDuration);
+                    }
+                    else
+                        uiRef.DisplayGameMessage("Wave Completed!", Wave[currentWave].phaseDuration);
+                }
             }
             else
             {
-                //Spawns monsters
-                typeLimit += 0.02f;
-                if (currentNumberOfMonsters < maxMonster)
+                // If not all of the above phases, it's action phase in which monsters should be spawned in
+                uiRef.DisplayWaveText(Wave[currentWave].waveName + "\n" + currentNumberOfMonsters + "/" + maxMonster);
+                if (timeCounter > 0)
                 {
-                    SpawnMonster(Wave[currentWave].monstersToSpawn, Wave[currentWave].numberOfMonsters);
+                    timeCounter -= Time.deltaTime;
                 }
-                timeCounter = Wave[currentWave].spawnTimeGap;
+                else
+                {
+                    //Spawns monsters
+                    typeLimit += 0.0001f;
+                    if (currentNumberOfMonsters < maxMonster)
+                    {
+                        SpawnMonster(Wave[currentWave].monstersToSpawn, Wave[currentWave].numberOfMonsters);
+                    }
+                    timeCounter = Wave[currentWave].spawnTimeGap;
+                }
+                if (currentNumberOfMonsters >= maxMonster)
+                {
+                    ContinueWave();
+                }
             }
-            if (currentNumberOfMonsters >= maxMonster)
+       }
+       else
+       {
+            uiRef.StartFadeIn();
+            endOfGameWait -= 0.02f;
+            if (endOfGameWait <= 0)
             {
-                ContinueWave();
+                Time.timeScale = 1f;
+                SceneManager.LoadScene(nextMap);
             }
-        }
-        
-        
+       }    
     }
     private int TotalMonster(int[] numberOfMonster)
     {
@@ -137,7 +153,8 @@ public class WaveController : MonoBehaviour
         {
             // End of game reached
             //Debug.LogWarning("End of game reached");
-            SceneManager.LoadScene("Main Menu");
+            CharacterTracker.instance.DestroyCurrentCharacter();
+            EndOfGameProcedure("Main Menu");
         }
     }
     public void KillMonster(int score)
@@ -155,8 +172,17 @@ public class WaveController : MonoBehaviour
                 // Check if the current Monster Type still have monster number to spawn
                 if (monstersNumber[i] > 0)
                 {
-                    PlaceInWorld(spawningMonster[i]);
-                    monstersNumber[i]--;
+                    if (Random.Range(0, 2) == 1)
+                    {
+                        // 50 : 50 chance of not spawning the monster
+                        PlaceInWorld(spawningMonster[i]);
+                        monstersNumber[i]--;
+                        typeLimit += Random.Range(-2f, 2f);
+                        if (typeLimit < 1)
+                        {
+                            typeLimit = 1;
+                        }
+                    }
                 }
                 //Move on to the next monster type
             }
@@ -172,17 +198,38 @@ public class WaveController : MonoBehaviour
         Vector2 randomPos = new Vector2(randomX, randomY);
         // Instantiate the monster
         Instantiate(monster, randomPos, Quaternion.identity);
-    }   
-  
+    }  
+    private void NewGameProcedure()
+    {
+        Instantiate(CharacterTracker.instance.currentCharacter, startPoint.position, Quaternion.identity);
+    }
+    public void EndOfGameProcedure(string mapChoice)
+    {
+        endOfGame = true;
+        nextMap = mapChoice;
+        //StartCoroutine(WaitThenLoad(mapChoice));
+        if (onGoingScore >= PlayerPrefs.GetInt("highestScore", 0))
+        {
+            PlayerPrefs.SetInt("highestScore", onGoingScore);
+            PlayerPrefs.SetString("highScoreMessage", "Best score:\n<i><color=#FFECAC>" + onGoingScore + "</i></color>" + "\nas\n<i><color=#FFECAC>" + CharacterTracker.instance.currentCharacterName + "</i></color>");
+            PlayerPrefs.Save();
+        }
+    }
+    //private IEnumerator WaitThenLoad(string map)
+    //{
+    //    uiRef.StartFadeIn();
+    //    yield return new WaitForSeconds(3.3f);
+    //    Time.timeScale = 1f;
+    //    SceneManager.LoadScene(map);
+    //}
 }
 [System.Serializable]
 public class WaveBehaviour
 {
-    
+    public string waveName;
     [Header("This wave is:")]
     [Tooltip("Leave all of them unticked if it's Monster wave")]
     public bool isBuyPhase, waveEnd, waveStart;
-    public string waveName;
     public GameObject[] monstersToSpawn;
     [Tooltip("Match this with the monsterToSpawn array")]
     public int[] numberOfMonsters;

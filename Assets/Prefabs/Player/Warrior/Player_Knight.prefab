@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1788199523449723848}
   - component: {fileID: 6880115384320767138}
-  m_Layer: 12
-  m_Name: groundObject
-  m_TagString: Untagged
+  m_Layer: 18
+  m_Name: BulletBox
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42,10 +42,10 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.012052774, y: -0.38}
+  m_Offset: {x: -0.009467483, y: -0.046506256}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -56,7 +56,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.60992384, y: 0.3528}
+  m_Size: {x: 0.55304885, y: 0.9163788}
   m_EdgeRadius: 0
 --- !u!1 &2671478530162581826
 GameObject:
@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 2671478530248241543}
   m_Layer: 7
   m_Name: shieldSlot
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -221,6 +221,7 @@ GameObject:
   - component: {fileID: 2671478530861998272}
   - component: {fileID: 2671478530861998302}
   - component: {fileID: 8529547560407623725}
+  - component: {fileID: 570318807817156053}
   m_Layer: 7
   m_Name: Player_Knight
   m_TagString: Player
@@ -266,15 +267,10 @@ MonoBehaviour:
   anim: {fileID: 2671478530861998303}
   weaponHand: {fileID: 2671478531382872442}
   weaponPoint: {fileID: 7611714959033800928}
-  internalFlame: {fileID: 4001023370530357512}
   playerRB: {fileID: 2671478530861998274}
   moveSpeed: 3.9
   deadBody: {fileID: 5214601676800552421, guid: 0f2a2822e22d4924497a694f02471640, type: 3}
-  physResistMult: 0.8
-  magResistMult: 1
-  maxHealth: 200
-  maxStamina: 200
-  maxMana: 50
+  internalFlame: {fileID: 4001023370530357512}
   EPC: 1
   notShielding: 1
   isRunning: 0
@@ -366,7 +362,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.875, y: 1.125}
+  m_Size: {x: 0.6875, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -398,7 +394,7 @@ MonoBehaviour:
   - {x: 0.29210454, y: -0.5461216, z: 0}
   m_ShapePathHash: -2099392825
   m_Mesh: {fileID: 0}
-  m_InstanceId: 67618
+  m_InstanceId: 82736
 --- !u!61 &8529547560407623725
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -409,22 +405,34 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.00737226, y: -0.05}
+  m_Offset: {x: -0.0047870874, y: -0.4481244}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 0.875, y: 1.125}
-    newSize: {x: 0.875, y: 1.125}
+    newSize: {x: 0.6875, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.39916825, y: 1.0093163}
+  m_Size: {x: 0.5180886, y: 0.21306753}
   m_EdgeRadius: 0
+--- !u!114 &570318807817156053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2671478530861998279}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4619006ebce547d4baf5fb3d5f732d78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2671478531382872443
 GameObject:
   m_ObjectHideFlags: 0
@@ -725,6 +733,10 @@ PrefabInstance:
     - target: {fileID: 648019548376472199, guid: 281cf9dca93174d438aeb007260310b4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1513703578633227943, guid: 281cf9dca93174d438aeb007260310b4, type: 3}
+      propertyPath: attackSpeedMult
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 5346208689239729767, guid: 281cf9dca93174d438aeb007260310b4, type: 3}
       propertyPath: m_Name

@@ -10,6 +10,7 @@ public class eSpellBehaviour : MonoBehaviour
     [SerializeField] private GameObject xplosionFX;
     [SerializeField] private float Damage;
     [SerializeField] private ParticleSystem spellEffect;
+    [SerializeField] private bool canHome;
     private Vector3 moveDirection;
     private PlayerController playerRef;
     private int isHoming;
@@ -19,18 +20,25 @@ public class eSpellBehaviour : MonoBehaviour
     {
         //spellEffect.Play();
         playerRef = PlayerController.instance;
-
-        isHoming = Random.Range(0, 6); // Randomly decide if this spell should be Homing or not. Odd: 1 out of 5
-        if (isHoming != 1) 
+        if (canHome)
+        {
+            isHoming = Random.Range(0, 6); // Randomly decide if this spell should be Homing or not. Odd: 1 out of 5
+        }
+        else
+        {
+            isHoming = 0;
+        }
+        if (isHoming != 1)
         {
             moveDirection = playerRef.transform.position - transform.position;
             moveDirection.Normalize();
+            //moveDirection = transform.right;
         }
         else
         {
             transform.gameObject.tag = "Enemy mBullet"; // Change the tag of the spell object if it is Homing type
-            Destroy(gameObject, 6f); // Auto destroy after a while
         }
+        Destroy(gameObject, 6f); // Auto destroy after a while
     }
 
     // Update is called once per frame

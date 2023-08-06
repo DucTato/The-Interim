@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+
 
 public class BarterMenu : MonoBehaviour
 {
@@ -21,10 +21,14 @@ public class BarterMenu : MonoBehaviour
         SetCurrentStatText();
         SetCurrentCoinText(PlayerStatusSystem.instance.currentCoins);
         RedrawCurrentEquipment();
+        coinTextAnimation.SetActive(false);
     }
     // Start is called before the first frame update
     void Start()
     {
+        initialHealth = CharacterTracker.instance.Health;
+        initialMana = CharacterTracker.instance.Mana;
+        initialStamina = CharacterTracker.instance.Stamina;
         SetTextHoverTip(upgradeHP, "Upgrade 100 HP?\n<color=#FFF547>Cost: " + UpgradeCostCalculator(PlayerStatusSystem.instance.currHealth, UpgradeType.Health) + "</color>");
         SetTextHoverTip(upgradeSP, "Upgrade 100 SP?\n<color=#FFF547>Cost: " + UpgradeCostCalculator(PlayerStatusSystem.instance.currSta, UpgradeType.Stamina) + "</color>");
         SetTextHoverTip(upgradeMP, "Upgrade 100 MP?\n<color=#FFF547>Cost: " + UpgradeCostCalculator(PlayerStatusSystem.instance.currMana, UpgradeType.Mana) + "</color>");

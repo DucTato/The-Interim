@@ -93,7 +93,7 @@ public class StaffCastingScript : Equippables
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        EnemyController ec = other.GetComponent<EnemyController>();
+        EnemyController ec = other.GetComponentInParent<EnemyController>();
         if (ec != null)
         {
             ec.BashKnockBack(bashForce, knockBackRecovery);

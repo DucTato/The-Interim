@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -13,10 +11,11 @@ public class UIController : MonoBehaviour
     public Slider hpSlider,manaSlider,staSlider;
     public GameObject sliderOutlines, pausePanel, ingamePanel, deathPanel;
     public Text coinText, waveText, gameMessage;
-    public TextMeshProUGUI itemName;
+    public TextMeshProUGUI itemName, currentName;
     [SerializeField] private Sprite bareHand;
-    public Image equipmentImage;
+    public Image equipmentImage, whiteFadeScreen, avatarImage;
     private float secondCounter, staminaCounter, manaCounter, messageCounter;
+    private bool fadeIn, fadeOut;
 
     // Start is called before the first frame update
     private void Awake()
@@ -25,6 +24,10 @@ public class UIController : MonoBehaviour
     }
     void Start()
     {
+        fadeOut = true;
+        fadeIn = false;
+        currentName.text = CharacterTracker.instance.currentCharacterName;
+        avatarImage.sprite = CharacterTracker.instance.avatarInGame;
         playerStat = PlayerStatusSystem.instance;
         secondCounter = 0;
         staminaCounter = 0;
@@ -53,6 +56,26 @@ public class UIController : MonoBehaviour
         if (manaCounter > 0)
         {
             manaCounter -= Time.deltaTime;
+        }
+        // Fade screen logics
+        if (fadeOut)
+        {
+            // 0.006f = 0.02f * 0.3f, is the speed similar to Time.deltaTime * 0.3f. During the match, the fade needs to be able to function even with timescale = 0.
+            whiteFadeScreen.color = new Color(whiteFadeScreen.color.r, whiteFadeScreen.color.g, whiteFadeScreen.color.b, Mathf.MoveTowards(whiteFadeScreen.color.a, 0f, 0.006f));
+            if (whiteFadeScreen.color.a == 0f)
+            {
+                fadeOut = false;
+                whiteFadeScreen.gameObject.SetActive(false);
+            }
+        }
+        if (fadeIn)
+        {
+            whiteFadeScreen.gameObject.SetActive(true);
+            whiteFadeScreen.color = new Color(whiteFadeScreen.color.r, whiteFadeScreen.color.g, whiteFadeScreen.color.b, Mathf.MoveTowards(whiteFadeScreen.color.a, 1f, 0.006f));
+            if (whiteFadeScreen.color.a == 1f)
+            {
+                fadeIn = false;
+            }
         }
     }
     public void UpdateNewMax(float maxHP, float maxMP, float maxSP)
@@ -143,8 +166,14 @@ public class UIController : MonoBehaviour
     }
     public void ReturnToMenuButton()
     {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("Main Menu");
+        //Time.timeScale = 1f;
+        //SceneManager.LoadScene("Main Menu");
+        CharacterTracker.instance.DestroyCurrentCharacter();
+        WaveController.instance.EndOfGameProcedure("Main Menu");
+    }
+    public void RetryButton()
+    {
+        WaveController.instance.EndOfGameProcedure(CharacterTracker.instance.currentMap);
     }
     public void UpdateEquipmentUI(Equippables item)
     {
@@ -173,5 +202,9 @@ public class UIController : MonoBehaviour
             staSlider.value = playerStat.currSta;
         }
         ingamePanel.SetActive(state);
+    }
+    public void StartFadeIn()
+    {
+        fadeIn = true;
     }
 }

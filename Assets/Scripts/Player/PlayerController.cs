@@ -13,7 +13,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed;
     [SerializeField] private GameObject deadBody;
     public Transform internalFlame;
-    public float physResistMult, magResistMult, maxHealth, maxStamina, maxMana;
     private float currSpeed, secondCounter, angle;
     private Vector2 moveInput, mousePos, screenPoint;
     private CameraController camRef;

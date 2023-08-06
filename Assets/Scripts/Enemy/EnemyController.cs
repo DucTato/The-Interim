@@ -1,38 +1,41 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    private PlayerController playerRef;
+    protected PlayerController playerRef;
     [SerializeField] protected float detectRange;
-    [SerializeField] private float Health;
-    [SerializeField] private GameObject rabidFX, coin;
-    [SerializeField] private int coinReward, scoreReward;
+    [SerializeField] protected float Health;
+    [SerializeField] protected GameObject rabidFX, coin;
+    [SerializeField] protected GameObject[] dropItems;
+    [SerializeField] protected int coinReward, scoreReward;
    
-    public bool isStunned;
+    public bool isStunned, canRabid;
     
 
     // Start is called before the first frame update
     void Start()
     {
         playerRef = PlayerController.instance;
+        GetComponent<EnemyPathFindingBehaviour>().SetFollowTarget(playerRef.transform);
         // Randomly pick a reward range (in coins)
         coinReward = Random.Range(coinReward, coinReward + 10);
-        // Randomly decides if the monster is rabid or not upon spawning. Chance: 1 out of 5
-        if(1 == Random.Range(0,6))
+        if (canRabid)
         {
-            GetComponent<EnemyPathFindingBehaviour>().isRabid = true;
-            rabidFX.SetActive(true);
-            Health *= 0.5f;
-            detectRange += 3f;
-            coinReward += Mathf.RoundToInt((float) coinReward * .2f);
-            scoreReward += Mathf.RoundToInt((float)scoreReward * .2f);
+            // Randomly decides if the monster is rabid or not upon spawning. Chance: 1 out of 5
+            if (1 == Random.Range(0, 6))
+            {
+                GetComponent<EnemyPathFindingBehaviour>().isRabid = true;
+                rabidFX.SetActive(true);
+                Health *= 0.5f;
+                detectRange += 3f;
+                coinReward += Mathf.RoundToInt(coinReward * .2f);
+                scoreReward += Mathf.RoundToInt(scoreReward * .2f);
+            }
         }
         if(PlayerStatusSystem.instance.gameType == GameMode.ArenaMode)
         {
-            // In Arena mode, Monster can always find you
+            // In Arena mode, Monsters can always find the Player
             detectRange = float.PositiveInfinity;
         }
     }
@@ -62,9 +65,17 @@ public class EnemyController : MonoBehaviour
         // Hit FX
         if (Health <= 0)
         {
-            // Spawning an item upon death
+            // Spawning a Coin upon death
             GameObject drop = Instantiate(coin, transform.position, Quaternion.identity);
             drop.GetComponent<CoinScript>().coinAmount = coinReward;
+            // Spawning an Item if it can
+            if (dropItems.Length > 0)
+            {
+                for (int i = 0; i < dropItems.Length; i++)
+                {
+                    GameObject item = Instantiate(dropItems[i], transform.position, Quaternion.identity);
+                }
+            }
             Destroy(gameObject);
             WaveController.instance.KillMonster(scoreReward);
         }

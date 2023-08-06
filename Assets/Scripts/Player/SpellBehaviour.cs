@@ -74,10 +74,14 @@ public class SpellBehaviour : MonoBehaviour
     {
         Instantiate(xplosionFX, transform.position, Quaternion.identity);
         Destroy(gameObject);
-        EnemyController ec = other.GetComponent<EnemyController>();
+        EnemyController ec = other.GetComponentInParent<EnemyController>();
         if (ec != null)
         {
             ec.damageEnemy(dmgToGive);
+        }
+        if (other.CompareTag("Boss"))
+        {
+            other.GetComponentInParent<BossBehaviour>().TakeDamage(dmgToGive);
         }
     }
     

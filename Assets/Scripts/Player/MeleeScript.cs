@@ -8,7 +8,7 @@ public class MeleeScript : Equippables
     
     [SerializeField] private MeleeType type;
     [SerializeField] private BoxCollider2D collision;
-    [SerializeField] private float attackDelay, staminaCost;
+    [SerializeField] private float attackDelay, staminaCost, attackSpeedMult;
 
     //[SerializeField] private Transform effectPoint;
     //[SerializeField] private float effectRadius;
@@ -35,7 +35,9 @@ public class MeleeScript : Equippables
             {
                 if (Input.GetMouseButtonDown(0) && playerStats.CheckStaminaThenPerform(staminaCost))// Left Click - Light Attacks
                 {
+
                     anim.SetInteger("meleeType", meleeType);
+                    anim.SetFloat("attackSpeedMult", attackSpeedMult);
                     anim.SetTrigger("meleeLight");
                     playerStats.ConsumeStamina(staminaCost);
                     timeBetweenLAttacks = attackDelay;
@@ -46,6 +48,7 @@ public class MeleeScript : Equippables
                 if (Input.GetMouseButtonDown(1) && playerStats.CheckStaminaThenPerform(staminaCost * 1.2f))// Right Click - Heavy Attacks
                 {
                     anim.SetInteger("meleeType", meleeType);
+                    anim.SetFloat("attackSpeedMult", attackSpeedMult * 0.9f);
                     anim.SetTrigger("meleeHeavy");
                     playerStats.ConsumeStamina(staminaCost * 1.2f);
                     timeBetweenHAttacks = attackDelay + 1;
@@ -67,7 +70,11 @@ public class MeleeScript : Equippables
     {
         if (other.CompareTag("Enemy"))
         {
-            other.GetComponent<EnemyController>().damageEnemy(Damage);
+            other.GetComponentInParent<EnemyController>().damageEnemy(Damage);
+        }
+        if (other.CompareTag("Boss"))
+        {
+            other.GetComponentInParent<BossBehaviour>().TakeDamage(Damage);
         }
     }
    

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5690314481288261980}
   - component: {fileID: 5690314481288261983}
   - component: {fileID: 2995120220898876858}
+  - component: {fileID: 4723824098616070005}
   m_Layer: 15
   m_Name: BoonItem
   m_TagString: Boon Item
@@ -74,7 +75,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1312925843
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: -1667501493, guid: 947bc7b13ea7c794f8a36535b98dff39, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -204,3 +205,15 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!114 &4723824098616070005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5690314481288261982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4619006ebce547d4baf5fb3d5f732d78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

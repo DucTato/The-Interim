@@ -20,13 +20,15 @@ public class EnemyShootingBehaviour : MonoBehaviour
     [SerializeField] 
     private float fireRate;
     [SerializeField] 
-    private GameObject spellToCast;
+    private GameObject[] spellToCast;
     [SerializeField] 
     private Transform shootPoint;
+    private int currentSpell;
     // Start is called before the first frame update
     void Start()
     {
         playerRef = PlayerController.instance;
+        currentSpell = 0;
     }
 
     // Update is called once per frame
@@ -34,10 +36,10 @@ public class EnemyShootingBehaviour : MonoBehaviour
     {
         if(playerRef.gameObject.activeInHierarchy)
         {
-            if (Vector2.Distance(transform.position, PlayerController.instance.transform.position) < shootRange)
+            if (Vector2.Distance(transform.position, playerRef.transform.position) < shootRange)
             {
                 // Enemies that can shoot at the player will be able to "aim" at the player
-                aimDirection = (PlayerController.instance.transform.position - rotationPoint.position).normalized;
+                aimDirection = (playerRef.transform.position - rotationPoint.position).normalized;
                 float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * 57.295f - 90f;
                 rotationAngle = Quaternion.AngleAxis(angle, Vector3.forward);
                 rotationPoint.rotation = Quaternion.Slerp(rotationPoint.rotation, rotationAngle, Time.deltaTime * rotationSpeed);
@@ -63,8 +65,26 @@ public class EnemyShootingBehaviour : MonoBehaviour
     {
         for (int i = 0; i < BurstSize; i++)
         {
-            Instantiate(spellToCast, shootPoint.position, shootPoint.rotation);
+            Instantiate(spellToCast[currentSpell], shootPoint.position, shootPoint.rotation);
             yield return new WaitForSeconds(60f / fireRate);
         }
+    }
+    public void ChangeCurrentCastingSpell(int index)
+    {
+        currentSpell = index;
+    }
+    public void ChangeCurrentCastingSpell(GameObject spell)
+    {
+        spellToCast[currentSpell] = spell;
+    }
+    public void ChangeFireRate(int brstSize, float rate, float coolDown)
+    {
+        BurstSize = brstSize;
+        fireRate = rate;
+        Delay = coolDown;
+    }
+    public void ChangeRotationSpeed(float speed)
+    {
+        rotationSpeed = speed;
     }
 }

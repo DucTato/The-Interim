@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,8 +9,8 @@ public class ArenaModeScript : MonoBehaviour
     [SerializeField] private int mapOption, currentClass, currentSkin;
     [SerializeField] private string[] mapSelections;
     [SerializeField] private Image characterPreview, characterAvatar;
-   
-    [SerializeField] private Text classText, skinText, statText;
+    [SerializeField] private string currentName;
+    [SerializeField] private Text classText, skinText, statText, bestScoreText;
     private string selectedMap;
     [SerializeField] private CharacterClass[] charClass;
     // Start is called before the first frame update
@@ -20,7 +19,16 @@ public class ArenaModeScript : MonoBehaviour
         selectedMap = "Arena_Forest";
         currentClass = 0;
         currentSkin = 0;
+        currentName = "The Wanderer";
         UpdateCurrentCharacterAvatar();
+        if (PlayerPrefs.GetInt("highestScore", 0) != 0)
+        {
+            bestScoreText.text = PlayerPrefs.GetString("highScoreMessage");
+        }
+        else
+        {
+            bestScoreText.text = "";
+        }
     }
 
     // Update is called once per frame
@@ -39,6 +47,11 @@ public class ArenaModeScript : MonoBehaviour
     }
     public void StartButton()
     {
+        // Set the current character settings
+        CharacterTracker.instance.SetCurrentCharacter(currentName, charClass[currentClass].startingHealth, charClass[currentClass].startingMana, charClass[currentClass].startingStamina,
+                                                        charClass[currentClass].magResistance, charClass[currentClass].physResistance, charClass[currentClass].currentCharacterSkin[currentSkin].playerOject, charClass[currentClass].currentCharacterSkin[currentSkin].avatar);
+        CharacterTracker.instance.currentMap = selectedMap;
+        // Start the  fading/loading sequence
         StartCoroutine(WaitThenLoad());
     }
     public void CharacterButton()
@@ -100,6 +113,10 @@ public class ArenaModeScript : MonoBehaviour
             currentSkin = 0;
         }
         UpdateCurrentCharacter();
+    }
+    public void NameInput(string name)
+    {
+        currentName = name;
     }
     private void UpdateCurrentCharacter()
     {

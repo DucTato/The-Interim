@@ -13,6 +13,7 @@ TagManager:
   - Boon Item
   - Coin
   - Clairvoyance
+  - Boss
   layers:
   - Default
   - TransparentFX
@@ -31,9 +32,9 @@ TagManager:
   - Obstacles
   - Pickup
   - Spawner
-  - 
-  - 
-  - 
+  - GroundHazard
+  - BulletDetect
+  - EnemyBulletDetect
   - 
   - 
   - 
@@ -53,9 +54,9 @@ TagManager:
   - name: Ground
     uniqueID: 1713421029
     locked: 0
-  - name: Objects
-    uniqueID: 1312925843
-    locked: 0
   - name: Actors
     uniqueID: 3111590141
+    locked: 0
+  - name: Objects
+    uniqueID: 1312925843
     locked: 0

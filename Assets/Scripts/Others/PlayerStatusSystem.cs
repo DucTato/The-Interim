@@ -8,7 +8,7 @@ public class PlayerStatusSystem : MonoBehaviour
     PlayerController playerRef;
     UIController uiRef;
     public GameMode gameType;
-    public float currHealth, currSta, currMana, staminaRecovery, manaRecovery;
+    public float currHealth, currSta, currMana, staminaRecovery, manaRecovery, magResistMult, physResistMult;
     public float maxHealth, maxSta, maxMana, recoveryMult;
     public bool notInvinc, regenStamina, regenMana, hasVigor, isPaused, isBuying;
     public int currentCoins;
@@ -25,6 +25,13 @@ public class PlayerStatusSystem : MonoBehaviour
     }
     void Start()
     {
+        // Get starting Status values from character tracker
+        maxHealth = CharacterTracker.instance.Health;
+        maxMana = CharacterTracker.instance.Mana;
+        maxSta = CharacterTracker.instance.Stamina;
+        magResistMult = CharacterTracker.instance.MagResist;
+        physResistMult = CharacterTracker.instance.PhysResist;
+        ///////////////////////////////////////////////////////
         currHealth = maxHealth;
         currSta = maxSta;
         currMana = maxMana;
@@ -70,7 +77,7 @@ public class PlayerStatusSystem : MonoBehaviour
         if (notInvinc && invincibleCount <= 0)
         {
             // Magical Resistance is taken into account when dealing magical damage 
-            currHealth -= (Damage * playerRef.magResistMult);
+            currHealth -= (Damage * magResistMult);
             invincibleCount = 1.5f;
             StartCoroutine(flashPlayer());
             // Update UI 
@@ -87,7 +94,7 @@ public class PlayerStatusSystem : MonoBehaviour
         if (notInvinc && invincibleCount <= 0)
         {
             // Physical Resistance is taken into account when dealing physical damage 
-            currHealth -= (Damage * playerRef.physResistMult);
+            currHealth -= (Damage * physResistMult);
             invincibleCount = 1.5f;
             StartCoroutine(flashPlayer());
             // Update UI

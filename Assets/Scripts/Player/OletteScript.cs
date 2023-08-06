@@ -27,6 +27,7 @@ public class OletteScript : MonoBehaviour
     private void OnDisable()
     {
         clairvoyance.SetActive(false);
+        buyMenu.SetActive(false);
     }
     private void Start()
     {
