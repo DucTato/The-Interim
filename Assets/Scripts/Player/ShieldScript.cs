@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class ShieldScript : MonoBehaviour
@@ -10,13 +9,16 @@ public class ShieldScript : MonoBehaviour
     private PlayerController playerRef;
     private PlayerStatusSystem playerStats;
     [SerializeField] private float parryWindow;
+    //private SpriteRenderer shieldSR;
     // Start is called before the first frame update
     void Start()
     {
         shieldCollision= GetComponent<CircleCollider2D>();
+        //shieldSR= GetComponent<SpriteRenderer>();
         playerRef = PlayerController.instance;
         playerStats = PlayerStatusSystem.instance;
         parryWindow = 0.3f;
+        
     }
 
     // Update is called once per frame
@@ -42,11 +44,15 @@ public class ShieldScript : MonoBehaviour
     }
     private void shieldUp()
     {
+        //shieldSR.sortingOrder = transform.root.GetComponent<SpriteRenderer>().sortingOrder + 10;
+        GetComponent<SpriteSortOrder>().SortOrderOverride(true);
         shieldCollision.enabled = true;
     }    
     private void shieldDown()
     {
         shieldCollision.enabled = false;
+        GetComponent<SpriteSortOrder>().SortOrderOverride(false);
+        //shieldSR.sortingOrder = transform.root.GetComponent<SpriteRenderer>().sortingOrder - 1;
     }
     public void ImpactShield(float damage)
     {

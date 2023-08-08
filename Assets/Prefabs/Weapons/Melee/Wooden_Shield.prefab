@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4910433658653758400}
   - component: {fileID: 4910433658653758401}
   - component: {fileID: 5195140397050287564}
+  - component: {fileID: 7508134528831819385}
   m_Layer: 6
   m_Name: Wooden_Shield
   m_TagString: Player Shield
@@ -76,8 +77,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1183377155
-  m_SortingLayer: 3
-  m_SortingOrder: -1
+  m_SortingLayer: 2
+  m_SortingOrder: -5
   m_Sprite: {fileID: 1726011324, guid: 526da1925b9af3948a4e2ffdabaae951, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -103,6 +104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 4910433658653758400}
   shieldImpactFX: {fileID: 7867333214026593830}
+  parryWindow: 0
 --- !u!95 &4910433658653758400
 Animator:
   serializedVersion: 4
@@ -160,6 +162,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &7508134528831819385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4910433658653758412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4619006ebce547d4baf5fb3d5f732d78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  consistentWithRoot: 1
 --- !u!1001 &1113884172293030466
 PrefabInstance:
   m_ObjectHideFlags: 0

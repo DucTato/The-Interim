@@ -29,9 +29,9 @@ public class BarterMenu : MonoBehaviour
         initialHealth = CharacterTracker.instance.Health;
         initialMana = CharacterTracker.instance.Mana;
         initialStamina = CharacterTracker.instance.Stamina;
-        SetTextHoverTip(upgradeHP, "Upgrade 100 HP?\n<color=#FFF547>Cost: " + UpgradeCostCalculator(PlayerStatusSystem.instance.currHealth, UpgradeType.Health) + "</color>");
-        SetTextHoverTip(upgradeSP, "Upgrade 100 SP?\n<color=#FFF547>Cost: " + UpgradeCostCalculator(PlayerStatusSystem.instance.currSta, UpgradeType.Stamina) + "</color>");
-        SetTextHoverTip(upgradeMP, "Upgrade 100 MP?\n<color=#FFF547>Cost: " + UpgradeCostCalculator(PlayerStatusSystem.instance.currMana, UpgradeType.Mana) + "</color>");
+        SetTextHoverTip(upgradeHP, "Upgrade 100 HP?\n<color=#FFF547>Cost: " + UpgradeCostCalculator(PlayerStatusSystem.instance.maxHealth, UpgradeType.Health) + "</color>");
+        SetTextHoverTip(upgradeSP, "Upgrade 100 SP?\n<color=#FFF547>Cost: " + UpgradeCostCalculator(PlayerStatusSystem.instance.maxSta, UpgradeType.Stamina) + "</color>");
+        SetTextHoverTip(upgradeMP, "Upgrade 100 MP?\n<color=#FFF547>Cost: " + UpgradeCostCalculator(PlayerStatusSystem.instance.maxMana, UpgradeType.Mana) + "</color>");
     }
 
     // Update is called once per frame
@@ -48,7 +48,7 @@ public class BarterMenu : MonoBehaviour
     }
     public void UpgradeHPButton()
     {
-        if (CheckAndBuy(UpgradeCostCalculator(PlayerStatusSystem.instance.currHealth, UpgradeType.Health)))
+        if (CheckAndBuy(UpgradeCostCalculator(PlayerStatusSystem.instance.maxHealth, UpgradeType.Health)))
         {
             // Upgrade the player's Health
             PlayerStatusSystem.instance.UpgradeHealth();
@@ -56,13 +56,13 @@ public class BarterMenu : MonoBehaviour
             PlayCoinTextAnimation(-100);
             SetCurrentCoinText(PlayerStatusSystem.instance.currentCoins);
             // Update the hover tip for new pricing information
-            SetTextHoverTip(upgradeHP, "Upgrade 100 HP?\n<color=#FFF547>Cost: " + UpgradeCostCalculator(PlayerStatusSystem.instance.currHealth, UpgradeType.Health) + "</color>");
+            SetTextHoverTip(upgradeHP, "Upgrade 100 HP?\n<color=#FFF547>Cost: " + UpgradeCostCalculator(PlayerStatusSystem.instance.maxHealth, UpgradeType.Health) + "</color>");
         }
         
     }
     public void UpgradeMPButton()
     {
-        if (CheckAndBuy(UpgradeCostCalculator(PlayerStatusSystem.instance.currMana, UpgradeType.Mana)))
+        if (CheckAndBuy(UpgradeCostCalculator(PlayerStatusSystem.instance.maxMana, UpgradeType.Mana)))
         {
             // Upgrade the player's Mana
             PlayerStatusSystem.instance.UpgradeMana();
@@ -70,7 +70,7 @@ public class BarterMenu : MonoBehaviour
             PlayCoinTextAnimation(-100);
             SetCurrentCoinText(PlayerStatusSystem.instance.currentCoins);
             // Update the hover tip for new pricing information
-            SetTextHoverTip(upgradeMP, "Upgrade 100 MP?\n<color=#FFF547>Cost: " + UpgradeCostCalculator(PlayerStatusSystem.instance.currMana, UpgradeType.Mana) + "</color>");
+            SetTextHoverTip(upgradeMP, "Upgrade 100 MP?\n<color=#FFF547>Cost: " + UpgradeCostCalculator(PlayerStatusSystem.instance.maxMana, UpgradeType.Mana) + "</color>");
         }
 
     }
@@ -84,7 +84,7 @@ public class BarterMenu : MonoBehaviour
             PlayCoinTextAnimation(-100);
             SetCurrentCoinText(PlayerStatusSystem.instance.currentCoins);
             // Update the hover tip for new pricing information
-            SetTextHoverTip(upgradeSP, "Upgrade 100 SP?\n<color=#FFF547>Cost: " + UpgradeCostCalculator(PlayerStatusSystem.instance.currSta, UpgradeType.Stamina) + "</color>");
+            SetTextHoverTip(upgradeSP, "Upgrade 100 SP?\n<color=#FFF547>Cost: " + UpgradeCostCalculator(PlayerStatusSystem.instance.maxSta, UpgradeType.Stamina) + "</color>");
         }
     }
     public void SellEquipmentSlot0()

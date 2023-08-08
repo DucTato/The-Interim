@@ -119,6 +119,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8584549169426555312}
   - component: {fileID: 3978785436032318944}
+  - component: {fileID: 1361734486622648044}
   m_Layer: 6
   m_Name: mSOuter
   m_TagString: Untagged
@@ -180,7 +181,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1183377155
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 10
   m_Sprite: {fileID: -1639779441, guid: 921c4cd1069166549b52437896d8e6b7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -193,6 +194,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1361734486622648044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8316394169465636681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4619006ebce547d4baf5fb3d5f732d78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  consistentWithRoot: 1
 --- !u!1 &9130758797281231742
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,6 +217,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5704645068171973641}
   - component: {fileID: 5864424212942247847}
+  - component: {fileID: 5366947587797262741}
   m_Layer: 6
   m_Name: mSInner
   m_TagString: Untagged
@@ -264,7 +279,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1183377155
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: -5
   m_Sprite: {fileID: -553787674, guid: 921c4cd1069166549b52437896d8e6b7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -277,3 +292,16 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5366947587797262741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9130758797281231742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4619006ebce547d4baf5fb3d5f732d78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  consistentWithRoot: 1

@@ -82,7 +82,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1183377155
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -1258470003, guid: 947bc7b13ea7c794f8a36535b98dff39, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectRange: 3
-  Health: 120
+  Health: 110
   rabidFX: {fileID: 2409020224371644001}
   coin: {fileID: 3744277593928794670, guid: fc7b6d1cca2a8ae4b9ef2407c1c2bae0, type: 3}
   dropItems: []
@@ -281,6 +281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4619006ebce547d4baf5fb3d5f732d78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  consistentWithRoot: 0
 --- !u!1 &5266016838657282411
 GameObject:
   m_ObjectHideFlags: 0

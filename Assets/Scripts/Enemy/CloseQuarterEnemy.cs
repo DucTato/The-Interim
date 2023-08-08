@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CloseQuarterEnemy : MonoBehaviour
@@ -20,6 +21,16 @@ public class CloseQuarterEnemy : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collision.gameObject.CompareTag("Player mShield"))
+        {
+            collision.gameObject.GetComponent<mShieldScript>().ImpactShield(damageToDeal);
+            return;
+        }
+        if (collision.gameObject.CompareTag("Player Shield"))
+        {
+            collision.gameObject.GetComponent<ShieldScript>().ImpactShield(damageToDeal);
+            return;
+        }
         if (collision.gameObject.CompareTag("Player"))
         {
             EnemyController ec = GetComponentInParent<EnemyController>();
@@ -41,6 +52,16 @@ public class CloseQuarterEnemy : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.CompareTag("Player mShield"))
+        {
+            collision.GetComponent<mShieldScript>().ImpactShield(damageToDeal);
+            return;
+        }
+        if (collision.CompareTag("Player Shield"))
+        {
+            collision.GetComponent<ShieldScript>().ImpactShield(damageToDeal);
+            return;
+        }
         if (collision.CompareTag("Player"))
         {
             EnemyController ec = GetComponentInParent<EnemyController>();

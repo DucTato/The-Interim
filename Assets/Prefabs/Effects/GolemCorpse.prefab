@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8266167160492436279}
   - component: {fileID: 6486838869162362574}
+  - component: {fileID: 2409273854728177684}
   m_Layer: 13
   m_Name: GolemHandR
   m_TagString: Untagged
@@ -72,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1183377155
   m_SortingLayer: 2
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 2086569585, guid: 967eb44ffb1c7c2499948c148bc0af58, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -84,6 +85,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2409273854728177684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3809258455466662409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4619006ebce547d4baf5fb3d5f732d78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  consistentWithRoot: 0
 --- !u!1 &4423893585573217259
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,11 +190,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4423893585573217259}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4619006ebce547d4baf5fb3d5f732d78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  consistentWithRoot: 0
 --- !u!1 &5935076960003258367
 GameObject:
   m_ObjectHideFlags: 0
@@ -273,11 +288,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5935076960003258367}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4619006ebce547d4baf5fb3d5f732d78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  consistentWithRoot: 0
 --- !u!1 &7313612431526980094
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,6 +307,7 @@ GameObject:
   - component: {fileID: 2595745721563710171}
   - component: {fileID: 5773846868340338632}
   - component: {fileID: 5831017485168590526}
+  - component: {fileID: 3670530731681387417}
   m_Layer: 13
   m_Name: GolemCorpse
   m_TagString: Untagged
@@ -376,11 +393,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7313612431526980094}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4619006ebce547d4baf5fb3d5f732d78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  consistentWithRoot: 0
 --- !u!95 &5773846868340338632
 Animator:
   serializedVersion: 4
@@ -427,6 +445,33 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.2889805, y: 0.5266439}
   m_EdgeRadius: 0
+--- !u!114 &3670530731681387417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7313612431526980094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 00000000e5ba2066fd1877b993a8414e
+  m_ShapePath:
+  - {x: -0.66294, y: -1.0551876, z: 0}
+  - {x: -0.6775651, y: 0.76269174, z: 0}
+  - {x: 0.72143936, y: 0.7626918, z: 0}
+  - {x: 0.70681477, y: -1.0551877, z: 0}
+  m_ShapePathHash: 1837587237
+  m_Mesh: {fileID: 0}
+  m_InstanceId: -681160
 --- !u!1 &7491771733560884841
 GameObject:
   m_ObjectHideFlags: 0

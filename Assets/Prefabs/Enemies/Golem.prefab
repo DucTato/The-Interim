@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 9216737004419001901}
   - component: {fileID: 9216737004419001900}
   - component: {fileID: 9216737004419001903}
+  - component: {fileID: 3150701145302836050}
   m_Layer: 9
   m_Name: Golem
   m_TagString: Boss
@@ -468,6 +469,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4619006ebce547d4baf5fb3d5f732d78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  consistentWithRoot: 0
+--- !u!114 &3150701145302836050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9216737004419001877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 00000000e5ba2066fd1877b993a8414e
+  m_ShapePath:
+  - {x: -0.5497539, y: -1.0731777, z: 0}
+  - {x: -0.67318845, y: 0.8674531, z: 0}
+  - {x: 0.63204384, y: 0.867453, z: 0}
+  - {x: 0.5703268, y: -1.0731775, z: 0}
+  m_ShapePathHash: 1847305261
+  m_Mesh: {fileID: 0}
+  m_InstanceId: -676944
 --- !u!1 &9216737004960568954
 GameObject:
   m_ObjectHideFlags: 0

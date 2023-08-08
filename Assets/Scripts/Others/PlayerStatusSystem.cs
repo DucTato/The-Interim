@@ -139,6 +139,7 @@ public class PlayerStatusSystem : MonoBehaviour
         manaCooldown = 1f;
         if (currMana <= 0)
         {
+            currMana = 0;
             regenMana = true;
         }
     }
@@ -149,6 +150,7 @@ public class PlayerStatusSystem : MonoBehaviour
         staminaCooldown = 1f;
         if (currSta <= 0)
         {
+            currSta = 0;
             regenStamina = true;
         }
     }

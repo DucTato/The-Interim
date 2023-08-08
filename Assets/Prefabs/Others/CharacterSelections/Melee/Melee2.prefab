@@ -46,4 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   avatar: {fileID: 1150767336, guid: b897483d97961434ab5974617b68fc76, type: 3}
   characterPreview: {fileID: -677007049, guid: b897483d97961434ab5974617b68fc76, type: 3}
-  playerOject: {fileID: 2671478530861998279, guid: 474d484dc6a0db4439b064479f2194d8, type: 3}
+  playerOject: {fileID: 7065164423980744809, guid: a84870af25bb9f24f87c5531d1e1484f, type: 3}

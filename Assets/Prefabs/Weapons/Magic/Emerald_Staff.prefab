@@ -186,6 +186,7 @@ GameObject:
   - component: {fileID: 6499029114761925118}
   - component: {fileID: 6499029114761925105}
   - component: {fileID: 6499029114761925104}
+  - component: {fileID: 6365027746413600594}
   m_Layer: 8
   m_Name: staff
   m_TagString: Player Bullet
@@ -248,8 +249,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1183377155
-  m_SortingLayer: 3
-  m_SortingOrder: -1
+  m_SortingLayer: 2
+  m_SortingOrder: -5
   m_Sprite: {fileID: -206341940, guid: 947bc7b13ea7c794f8a36535b98dff39, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -287,6 +288,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 1.875}
   m_EdgeRadius: 0
+--- !u!114 &6365027746413600594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6499029114761925119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4619006ebce547d4baf5fb3d5f732d78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  consistentWithRoot: 1
 --- !u!1 &6499029115060799068
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,7 +404,7 @@ TrailRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1183377155
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: -2
   m_Time: 2
   m_Parameters:

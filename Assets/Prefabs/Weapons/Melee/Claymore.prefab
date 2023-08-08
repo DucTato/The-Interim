@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2622271054881527740}
   - component: {fileID: 7831187338965467191}
   - component: {fileID: 31388016089685821}
+  - component: {fileID: 7538223652413269682}
   m_Layer: 8
   m_Name: Knight_Claymore
   m_TagString: Player Bullet
@@ -73,8 +74,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1183377155
-  m_SortingLayer: 3
-  m_SortingOrder: -1
+  m_SortingLayer: 2
+  m_SortingOrder: -5
   m_Sprite: {fileID: 1384437883, guid: 947bc7b13ea7c794f8a36535b98dff39, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -112,6 +113,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.41631615, y: 1.6605427}
   m_EdgeRadius: 0
+--- !u!114 &7538223652413269682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 764347635955175112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4619006ebce547d4baf5fb3d5f732d78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  consistentWithRoot: 1
 --- !u!1 &5346208689239729767
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,7 +300,7 @@ TrailRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1183377155
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: -2
   m_Time: 2
   m_Parameters:
