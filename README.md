@@ -45,8 +45,13 @@ _You'll have to face many monsters at a time_
 
 ![image](https://github.com/DucTato/The-Interim/assets/65166409/d3809113-f7b7-45d2-a09e-204d74aa0949)
 
-
 _Fight the Mud Golem! Becareful, he has some tricks up his sleeve_
 
 ![image](https://github.com/DucTato/The-Interim/assets/65166409/95a2dc03-fe02-458f-892c-e73a8885821c)
 
+# Future Plans:
+  + A **Story Mode** where the Player has to solve riddles to progress.
+  + Ties **Arena Mode** unlock progress to the main **Story**
+  + More weapons
+  + More enemies
+  + Improves performance
