@@ -11,7 +11,7 @@ The gameplay loop can be described as: **Fight Monsters -> Find Olette -> Intera
   + A variety of monsters (from suicidal _Poison Slimes_ to _Spell slinging Witches_,...)
   + A Boss with different methods of attacks (decided randomly) and 2 stages (based on health)
 
-# Some of the screenshots from the game:
+# Screenshots:
 
 _The Player needs to prep themselves up for the upcoming fights_
 
